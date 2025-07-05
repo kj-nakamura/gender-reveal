@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx supabase:*)"
+      "Bash(npx supabase:*)",
+      "Bash(npm run test:ci:*)",
+      "Bash(find:*)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)"
     ],
     "deny": []
   }
