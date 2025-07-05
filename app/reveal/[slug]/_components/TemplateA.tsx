@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import "./TemplateA.css";
+import "./TemplateA.css"; // ← この行を追加
 
 type Props = {
   gender: string;
@@ -13,18 +13,23 @@ export default function TemplateA({ gender }: Props) {
 
   if (!isRevealed) {
     return (
-      <div>
-        <h1>ドキドキ...</h1>
-        <button onClick={() => setIsRevealed(true)}>結果を見る！</button>
+      <div className="template-a-container">
+        <div className="initial-view-a">
+          <h1>ドキドキ...</h1>
+          <button className="reveal-button-a" onClick={() => setIsRevealed(true)}>
+            結果を見る！
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>It's a ...</h1>
-      {/* ここにアニメーションなどを追加するとリッチになる */}
-      <h2>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
+    <div className="template-a-container">
+      <div className="revealed-view-a">
+        <h1>It's a ...</h1>
+        <h2 className={`result-text-a ${gender}`}>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
+      </div>
     </div>
   );
 }

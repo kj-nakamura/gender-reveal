@@ -1,19 +1,16 @@
 // app/reveal/[slug]/page.tsx
 import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
-import TemplateA from "./_components/TemplateA"; // あとで作成
-import TemplateB from "./_components/TemplateB"; // あとで作成
+import TemplateA from "./_components/TemplateA";
+import TemplateB from "./_components/TemplateB";
 
 // ページのメイン部分
-export default async function RevealPage({ params }: { params: { slug: string } }) {
-  const supabase = createClient();
+export default async function RevealPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const supabase = await createClient();
 
   // URLのslugを使って、データベースから該当するデータを取得
-  const { data: reveal } = await supabase
-    .from("reveals")
-    .select("template_id, gender")
-    .eq("share_slug", params.slug)
-    .single();
+  const { data: reveal } = await supabase.from("reveals").select("template_id, gender").eq("share_slug", slug).single();
 
   // データが見つからなければ404ページを表示
   if (!reveal) {

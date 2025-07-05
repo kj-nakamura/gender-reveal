@@ -1,0 +1,93 @@
+/* app/create/page.css */
+
+.create-page-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+}
+
+.create-page-container h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #111827;
+}
+
+.template-card {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.template-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.template-card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.template-card p {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.create-button {
+  flex-grow: 1;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.create-button:hover {
+  transform: scale(1.03);
+}
+
+.create-button.boy {
+  background-color: #3b82f6; /* Blue */
+  color: white;
+}
+.create-button.boy:hover {
+  background-color: #2563eb;
+}
+
+.create-button.girl {
+  background-color: #ec4899; /* Pink */
+  color: white;
+}
+.create-button.girl:hover {
+  background-color: #db2777;
+}
+
+.premium-card {
+  border-color: #f59e0b; /* Amber */
+  background: linear-gradient(to right, #fffbeb, #fefce8);
+}
+
+.premium-card .premium-button {
+  background-color: #f59e0b;
+}
+.premium-card .premium-button:hover {
+  background-color: #d97706;
+}
