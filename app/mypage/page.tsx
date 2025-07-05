@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import RevealCard from "./_components/RevealCard";
+import LogoutButton from "./_components/LogoutButton";
 
 export default async function MyPage() {
   const supabase = await createClient();
@@ -14,6 +15,11 @@ export default async function MyPage() {
     redirect('/login');
   }
 
+  // メール認証チェック
+  if (!user.email_confirmed_at) {
+    redirect('/verify-email');
+  }
+
   // ユーザーの作成したリビールデータを取得
   const { data: reveals } = await supabase
     .from('reveals')
@@ -23,7 +29,13 @@ export default async function MyPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-8">マイページ</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">マイページ</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-600">{user.email}</span>
+          <LogoutButton />
+        </div>
+      </div>
       
       {reveals && reveals.length > 0 ? (
         <div className="max-w-2xl mx-auto">

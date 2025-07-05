@@ -4,6 +4,7 @@
 import { login, signup } from "./actions";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -86,6 +87,15 @@ function LoginForm() {
             </button>
           </div>
         </form>
+
+        <div className="mt-6 text-center">
+          <Link 
+            href="/forgot-password"
+            className="text-sm text-blue-600 hover:text-blue-500 underline"
+          >
+            パスワードをお忘れですか？
+          </Link>
+        </div>
       </div>
     </div>
   );

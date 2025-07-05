@@ -13,6 +13,11 @@ export default async function CreateRevealPage() {
     redirect('/login');
   }
 
+  // メール認証チェック
+  if (!user.email_confirmed_at) {
+    redirect('/verify-email');
+  }
+
   // 既存のリビールがあるかチェック
   const { data: existingReveal } = await supabase
     .from('reveals')

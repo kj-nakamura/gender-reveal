@@ -2,12 +2,16 @@
 "use client";
 
 import { createReveal } from "@/app/reveal/actions";
+import LogoutButton from "@/app/mypage/_components/LogoutButton";
 import "../page.css";
 
 export default function CreateRevealClient() {
   return (
     <main className="create-page-container">
-      <h1>デザインを選んで作成</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1>デザインを選んで作成</h1>
+        <LogoutButton />
+      </div>
 
       {/* --- デザインテンプレートA --- */}
       <div className="template-card">
