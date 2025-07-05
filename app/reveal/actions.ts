@@ -42,3 +42,30 @@ export const createReveal = async (templateId: string, gender: 'boy' | 'girl') =
   // 成功したら、作成されたリビールページにリダイレクト
   redirect(`/reveal/${slug}`)
 }
+
+// リビールを削除する関数
+export const deleteReveal = async (revealId: string) => {
+  const supabase = await createClient()
+
+  // 1. ログインしているユーザー情報を取得
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return redirect('/login')
+  }
+
+  // 2. 該当するリビールを削除（自分のもののみ）
+  const { error } = await supabase
+    .from('reveals')
+    .delete()
+    .eq('id', revealId)
+    .eq('user_id', user.id)
+
+  if (error) {
+    console.error('Error deleting reveal:', error)
+    return redirect('/mypage?message=error-deleting-reveal')
+  }
+
+  // 成功したらマイページにリダイレクト
+  redirect('/mypage')
+}
