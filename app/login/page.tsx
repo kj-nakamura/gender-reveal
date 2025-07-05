@@ -4,7 +4,6 @@
 import { sendOTPCode } from "./actions";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
-import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -36,7 +35,7 @@ function LoginForm() {
     try {
       const result = await sendOTPCode(formData);
       
-      if (result.success) {
+      if (result.success && result.email) {
         setMessage('認証コードをメールに送信しました');
         setMessageType('success');
         // 成功時は認証コード入力画面にリダイレクト
@@ -47,7 +46,7 @@ function LoginForm() {
         setMessage(result.error || '認証コードの送信に失敗しました');
         setMessageType('error');
       }
-    } catch (error) {
+    } catch {
       setMessage('エラーが発生しました');
       setMessageType('error');
     } finally {

@@ -30,7 +30,7 @@ export default function ResendEmailButton() {
       } else {
         setMessage("認証メールを再送信しました");
       }
-    } catch (error) {
+    } catch {
       setMessage("エラーが発生しました");
     } finally {
       setIsLoading(false);

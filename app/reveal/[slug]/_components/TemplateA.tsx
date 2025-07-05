@@ -27,7 +27,7 @@ export default function TemplateA({ gender }: Props) {
   return (
     <div className="template-a-container">
       <div className="revealed-view-a">
-        <h1>It's a ...</h1>
+        <h1>It&apos;s a ...</h1>
         <h2 className={`result-text-a ${gender}`}>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
       </div>
     </div>

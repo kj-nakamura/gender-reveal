@@ -37,7 +37,7 @@ export default function ResetPasswordForm() {
       } else {
         setMessage(result.error || "パスワードの更新に失敗しました");
       }
-    } catch (error) {
+    } catch {
       setMessage("エラーが発生しました");
     } finally {
       setIsLoading(false);

@@ -12,7 +12,7 @@ export const sendOTPCode = async (formData: FormData) => {
   
   if (!email) {
     console.log('No email provided');
-    return { success: false, error: "メールアドレスは必須です" };
+    return { success: false as const, error: "メールアドレスは必須です" };
   }
   
   const supabase = await createClient();
@@ -28,11 +28,11 @@ export const sendOTPCode = async (formData: FormData) => {
 
   if (error) {
     console.error('OTP send error:', error);
-    return { success: false, error: "認証コードの送信に失敗しました" };
+    return { success: false as const, error: "認証コードの送信に失敗しました" };
   }
 
   console.log('OTP sent successfully, data:', data);
-  return { success: true, email };
+  return { success: true as const, email };
 };
 
 // 認証コードを検証してログイン

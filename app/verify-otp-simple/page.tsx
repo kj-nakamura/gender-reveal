@@ -1,11 +1,11 @@
 // app/verify-otp-simple/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { verifyOTPCode } from "@/app/login/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function VerifyOTPSimplePage() {
+function VerifyOTPContent() {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -30,7 +30,7 @@ export default function VerifyOTPSimplePage() {
       } else {
         setMessage(result.error || "認証に失敗しました");
       }
-    } catch (error) {
+    } catch {
       setMessage("エラーが発生しました");
     } finally {
       setIsLoading(false);
@@ -89,5 +89,13 @@ export default function VerifyOTPSimplePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyOTPSimplePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <VerifyOTPContent />
+    </Suspense>
   );
 }

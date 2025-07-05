@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { verifyOTPCode, sendOTPCode } from "@/app/login/actions";
+import { verifyOTPCode } from "@/app/login/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface VerifyOTPFormProps {
@@ -50,7 +50,7 @@ export default function VerifyOTPForm({ email }: VerifyOTPFormProps) {
         setMessage(result.error || "認証に失敗しました");
         setMessageType('error');
       }
-    } catch (error) {
+    } catch {
       setMessage("エラーが発生しました");
       setMessageType('error');
     } finally {
@@ -69,7 +69,7 @@ export default function VerifyOTPForm({ email }: VerifyOTPFormProps) {
       // Note: sendOTPCodeはリダイレクトするので、ここでは新しい関数が必要
       // 簡単のため、ページリロードで対応
       window.location.href = `/login?email=${encodeURIComponent(email)}`;
-    } catch (error) {
+    } catch {
       setMessage("再送信に失敗しました");
       setMessageType('error');
       setIsResending(false);

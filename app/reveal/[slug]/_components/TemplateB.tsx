@@ -31,7 +31,7 @@ export default function TemplateB({ gender }: Props) {
             <div className="balloon">🎈</div>
             <div className="balloon">🎈</div>
           </div>
-          <h1>It's a ...</h1>
+          <h1>It&apos;s a ...</h1>
           <h2 className={`result-text ${gender}`}>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
         </div>
       )}

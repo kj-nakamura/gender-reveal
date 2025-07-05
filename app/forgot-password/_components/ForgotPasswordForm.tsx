@@ -22,7 +22,7 @@ export default function ForgotPasswordForm() {
       } else {
         setMessage(result.error || "エラーが発生しました");
       }
-    } catch (error) {
+    } catch {
       setMessage("エラーが発生しました");
     } finally {
       setIsLoading(false);
