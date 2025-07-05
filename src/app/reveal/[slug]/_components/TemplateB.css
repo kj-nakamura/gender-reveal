@@ -1,0 +1,95 @@
+/* app/reveal/[slug]/_components/TemplateB.css */
+
+.template-b-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.initial-view .reveal-button {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 50px;
+  background-color: #ff69b4; /* Pink */
+  color: white;
+  transition: transform 0.2s;
+}
+
+.initial-view .reveal-button:hover {
+  transform: scale(1.1);
+}
+
+.revealed-view .result-text {
+  font-size: 4rem;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.revealed-view .result-text.boy {
+  color: #00bfff; /* Deep Sky Blue */
+}
+
+.revealed-view .result-text.girl {
+  color: #ff1493; /* Deep Pink */
+}
+
+/* Balloon Animation */
+.balloon-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.balloon {
+  position: absolute;
+  bottom: -100px; /* Start from below the screen */
+  font-size: 3rem;
+  animation: rise 4s ease-in infinite;
+  opacity: 0.7;
+}
+
+/* Give each balloon a different starting position and delay */
+.balloon:nth-child(1) {
+  left: 10%;
+  animation-delay: 0s;
+}
+.balloon:nth-child(2) {
+  left: 50%;
+  animation-delay: 1.5s;
+  font-size: 4rem;
+}
+.balloon:nth-child(3) {
+  left: 80%;
+  animation-delay: 2.5s;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh); /* Rise high above the screen */
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
