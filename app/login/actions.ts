@@ -3,6 +3,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { getBaseUrl } from "@/utils/get-base-url";
 
 // メール認証コードを送信
 export const sendOTPCode = async (formData: FormData) => {
@@ -18,11 +19,13 @@ export const sendOTPCode = async (formData: FormData) => {
   const supabase = await createClient();
   
   console.log('Sending OTP to:', email);
+  const baseUrl = getBaseUrl();
+  
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
       shouldCreateUser: true, // ユーザーが存在しない場合は自動作成
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/verify-otp?email=${encodeURIComponent(email)}`,
+      emailRedirectTo: `${baseUrl}/verify-otp?email=${encodeURIComponent(email)}`,
     }
   });
 

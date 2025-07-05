@@ -2,13 +2,16 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { getBaseUrl } from "@/utils/get-base-url";
 
 export async function resetPassword(email: string) {
   const supabase = await createClient();
 
+  const baseUrl = getBaseUrl();
+
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+      redirectTo: `${baseUrl}/reset-password`,
     });
 
     if (error) {
