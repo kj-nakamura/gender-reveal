@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import CreateRevealPage from "../src/app/create/page";
+import CreateRevealPage from "../app/create/page";
 
 // Server Actionsをモック
 jest.mock("../app/reveal/actions", () => ({

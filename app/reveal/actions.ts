@@ -11,7 +11,7 @@ const generateSlug = () => {
 
 // 本体となる関数
 export const createReveal = async (templateId: string, gender: 'boy' | 'girl') => {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // 1. ログインしているユーザー情報を取得
   const { data: { user } } = await supabase.auth.getUser()

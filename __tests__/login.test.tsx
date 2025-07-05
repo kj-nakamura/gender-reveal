@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import LoginPage from "../src/app/login/page";
+import LoginPage from "../app/login/page";
 
 // Server Actionsをモック
 jest.mock("../app/login/actions", () => ({

@@ -1,5 +1,5 @@
 // app/reveal/[slug]/page.tsx
-import { createClient } from "../../../lib/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA"; // あとで作成
 import TemplateB from "./_components/TemplateB"; // あとで作成
