@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import RevealCard from "./_components/RevealCard";
 import LogoutButton from "./_components/LogoutButton";
+import DeleteUserButton from "./_components/DeleteUserButton";
 
 export default async function MyPage() {
   const supabase = await createClient();
@@ -34,6 +35,7 @@ export default async function MyPage() {
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">{user.email}</span>
           <LogoutButton />
+          <DeleteUserButton />
         </div>
       </div>
       

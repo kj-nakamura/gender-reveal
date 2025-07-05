@@ -1,48 +1,84 @@
 // app/login/page.tsx
 "use client";
 
-import { login, signup } from "./actions";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { sendOTPCode } from "./actions";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 
 function LoginForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const messageKey = searchParams.get('message');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState<'error' | 'success'>('error');
 
   const getMessageText = (key: string) => {
     const messages: { [key: string]: { text: string; type: 'error' | 'success' } } = {
-      'required': { text: 'メールアドレスとパスワードは必須です', type: 'error' },
-      'already_registered': { text: 'このメールアドレスは既に登録されています。ログインしてください。', type: 'error' },
-      'signup_error': { text: '新規登録でエラーが発生しました', type: 'error' },
-      'check_email': { text: 'メールアドレスを確認してログインを完了してください', type: 'success' },
-      'signup_success': { text: '新規登録が完了しました！ログインしてください', type: 'success' },
-      'login_error': { text: 'ログインに失敗しました。メールアドレスとパスワードを確認してください。', type: 'error' },
+      'required': { text: 'メールアドレスは必須です', type: 'error' },
+      'otp_send_error': { text: '認証コードの送信に失敗しました', type: 'error' },
+      'otp_sent': { text: '認証コードをメールに送信しました', type: 'success' },
       'unexpected_error': { text: '予期しないエラーが発生しました', type: 'error' }
     };
     return messages[key] || { text: key, type: 'error' };
   };
 
-  const message = messageKey ? getMessageText(messageKey) : null;
+  const urlMessage = messageKey ? getMessageText(messageKey) : null;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const result = await sendOTPCode(formData);
+      
+      if (result.success) {
+        setMessage('認証コードをメールに送信しました');
+        setMessageType('success');
+        // 成功時は認証コード入力画面にリダイレクト
+        setTimeout(() => {
+          router.push(`/verify-otp?email=${encodeURIComponent(result.email)}`);
+        }, 1500);
+      } else {
+        setMessage(result.error || '認証コードの送信に失敗しました');
+        setMessageType('error');
+      }
+    } catch (error) {
+      setMessage('エラーが発生しました');
+      setMessageType('error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const displayMessage = message || (urlMessage ? urlMessage.text : '');
+  const displayMessageType = message ? messageType : (urlMessage ? urlMessage.type : 'error');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 flex items-center justify-center p-8">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          ログイン / 新規登録
+          ログイン
         </h1>
+        <p className="text-gray-600 text-center mb-6">
+          メールアドレスに認証コードを送信します
+        </p>
         
-        {message && (
+        {displayMessage && (
           <div className={`p-3 rounded-md mb-4 ${
-            message.type === 'error'
+            displayMessageType === 'error'
               ? 'bg-red-100 border border-red-400 text-red-700' 
               : 'bg-green-100 border border-green-400 text-green-700'
           }`}>
-            {message.text}
+            {displayMessage}
           </div>
         )}
         
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               メールアドレス
@@ -52,49 +88,24 @@ function LoginForm() {
               name="email" 
               type="email" 
               required 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              disabled={isLoading}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent disabled:opacity-50"
               placeholder="example@email.com"
             />
           </div>
           
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              パスワード
-            </label>
-            <input 
-              id="password" 
-              name="password" 
-              type="password" 
-              required 
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-              placeholder="パスワードを入力"
-            />
-          </div>
-          
-          <div className="space-y-3 pt-4">
-            <button 
-              formAction={login}
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
-            >
-              ログイン
-            </button>
-            
-            <button 
-              formAction={signup}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-md hover:from-pink-600 hover:to-purple-700 transition-all duration-300"
-            >
-              新規登録
-            </button>
-          </div>
+          <button 
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-md hover:from-pink-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? '送信中...' : '認証コードを送信'}
+          </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <Link 
-            href="/forgot-password"
-            className="text-sm text-blue-600 hover:text-blue-500 underline"
-          >
-            パスワードをお忘れですか？
-          </Link>
+        <div className="mt-6 text-center text-sm text-gray-500">
+          <p>メールアドレスに6桁の認証コードが送信されます</p>
+          <p>初回利用時は自動的にアカウントが作成されます</p>
         </div>
       </div>
     </div>

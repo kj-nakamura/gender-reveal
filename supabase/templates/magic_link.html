@@ -1,0 +1,15 @@
+<h2>ログインコード</h2>
+
+<p>こんにちは！</p>
+
+<p>以下の6桁のコードを使ってログインしてください：</p>
+
+<h1 style="font-size: 32px; font-weight: bold; text-align: center; background-color: #f0f0f0; padding: 20px; border-radius: 8px; letter-spacing: 8px;">{{ .Token }}</h1>
+
+<p>または、以下のリンクをクリックしてください：</p>
+
+<p><a href="{{ .SiteURL }}/verify-otp?email={{ .Email }}&token={{ .Token }}" style="background-color: #4CAF50; color: white; padding: 14px 20px; text-decoration: none; border-radius: 4px;">ログインする</a></p>
+
+<p>このコードは10分間有効です。</p>
+
+<p>このメールに心当たりがない場合は、無視してください。</p>

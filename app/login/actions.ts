@@ -4,45 +4,56 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export const signup = async (formData: FormData) => {
+// メール認証コードを送信
+export const sendOTPCode = async (formData: FormData) => {
   const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
   
-  if (!email || !password) {
-    redirect("/login?message=required");
+  console.log('sendOTPCode called with email:', email);
+  
+  if (!email) {
+    console.log('No email provided');
+    return { success: false, error: "メールアドレスは必須です" };
   }
-  
-  console.log("Signup attempt:", { email, password: "***" });
   
   const supabase = await createClient();
   
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
+  console.log('Sending OTP to:', email);
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: email,
+    options: {
+      shouldCreateUser: true, // ユーザーが存在しない場合は自動作成
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/verify-otp?email=${encodeURIComponent(email)}`,
+    }
   });
 
-  console.log("Signup result:", { data, error });
-
   if (error) {
-    console.error('Signup error:', error);
-    
-    // 既存ユーザーの場合は特別な処理
-    if (error.message === 'User already registered') {
-      redirect("/login?message=already_registered");
-    }
-    
-    // その他のエラー
-    redirect("/login?message=signup_error");
+    console.error('OTP send error:', error);
+    return { success: false, error: "認証コードの送信に失敗しました" };
   }
 
-  if (data.user && !data.user.email_confirmed_at) {
-    redirect("/login?message=check_email");
-  }
-
-  // 新規登録成功
-  redirect("/login?message=signup_success");
+  console.log('OTP sent successfully, data:', data);
+  return { success: true, email };
 };
 
+// 認証コードを検証してログイン
+export const verifyOTPCode = async (email: string, token: string) => {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: 'email'
+  });
+
+  if (error) {
+    console.error('OTP verify error:', error);
+    return { success: false, error: '認証コードが正しくありません' };
+  }
+
+  return { success: true };
+};
+
+// 従来のパスワードログイン（後方互換性のため残す）
 export const login = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -62,6 +73,38 @@ export const login = async (formData: FormData) => {
     redirect("/login?message=login_error");
   }
 
-  // ログイン成功後はメインページなどにリダイレクト
   redirect("/");
+};
+
+// 従来のパスワード新規登録（後方互換性のため残す）
+export const signup = async (formData: FormData) => {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  
+  if (!email || !password) {
+    redirect("/login?message=required");
+  }
+  
+  const supabase = await createClient();
+  
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    console.error('Signup error:', error);
+    
+    if (error.message === 'User already registered') {
+      redirect("/login?message=already_registered");
+    }
+    
+    redirect("/login?message=signup_error");
+  }
+
+  if (data.user && !data.user.email_confirmed_at) {
+    redirect("/login?message=check_email");
+  }
+
+  redirect("/login?message=signup_success");
 };
