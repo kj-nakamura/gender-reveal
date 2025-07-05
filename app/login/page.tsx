@@ -46,8 +46,9 @@ function LoginForm() {
         setMessage(result.error || '認証コードの送信に失敗しました');
         setMessageType('error');
       }
-    } catch {
-      setMessage('エラーが発生しました');
+    } catch (error) {
+      console.error('Client-side login error:', error);
+      setMessage('エラーが発生しました。コンソールログを確認してください。');
       setMessageType('error');
     } finally {
       setIsLoading(false);

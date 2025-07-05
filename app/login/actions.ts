@@ -22,6 +22,13 @@ export const sendOTPCode = async (formData: FormData) => {
   
   const baseUrl = getBaseUrl();
   
+  console.log('Attempting to send OTP with config:', {
+    email,
+    baseUrl,
+    redirectTo: `${baseUrl}/verify-otp?email=${encodeURIComponent(email)}`,
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL
+  });
+
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
@@ -31,8 +38,14 @@ export const sendOTPCode = async (formData: FormData) => {
   });
 
   if (error) {
-    console.error('OTP send error:', error);
-    return { success: false as const, error: "認証コードの送信に失敗しました" };
+    console.error('OTP send error details:', {
+      message: error.message,
+      status: error.status,
+      name: error.name,
+      stack: error.stack,
+      fullError: error
+    });
+    return { success: false as const, error: `認証コードの送信に失敗しました: ${error.message}` };
   }
 
   console.log('OTP sent successfully, data:', data);
