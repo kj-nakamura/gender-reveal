@@ -37,7 +37,11 @@ export default function DeleteUserButton() {
 
       {/* アカウント削除確認ダイアログ */}
       {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-modal="true"
+        >
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <div className="flex items-center mb-4">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">

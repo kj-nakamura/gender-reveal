@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { deleteReveal } from "@/app/reveal/actions";
+import { useRouter } from "next/navigation";
 
 type RevealCardProps = {
   reveal: {
@@ -19,6 +20,7 @@ export default function RevealCard({ reveal }: RevealCardProps) {
   const [copied, setCopied] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const router = useRouter();
   
   useEffect(() => {
     setShareUrl(`${window.location.origin}/reveal/${reveal.share_slug}`);
@@ -36,6 +38,8 @@ export default function RevealCard({ reveal }: RevealCardProps) {
 
   const handleDelete = async () => {
     await deleteReveal(reveal.id);
+    router.refresh();
+    setShowDeleteDialog(false);
   };
 
   return (
@@ -106,7 +110,11 @@ export default function RevealCard({ reveal }: RevealCardProps) {
 
       {/* 削除確認ダイアログ */}
       {showDeleteDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          role="dialog"
+          aria-modal="true"
+        >
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">リビールを削除しますか？</h3>
             <p className="text-gray-600 mb-6">

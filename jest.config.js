@@ -13,6 +13,9 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
+  },
   transformIgnorePatterns: [
     '/node_modules/(?!(@supabase|isows)/)',
   ],
