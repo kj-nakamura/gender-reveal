@@ -14,15 +14,7 @@ jest.mock("next/navigation", () => ({
 const mockedUseRouter = useRouter as jest.Mock;
 
 // navigator.clipboardをモック化
-Object.defineProperty(global.navigator, 'clipboard', {
-  value: {
-    writeText: jest.fn(),
-  },
-  writable: true,
-  configurable: true,
-});
 
-const mockedClipboardWriteText = navigator.clipboard.writeText as jest.Mock;
 
 // next/linkをモック化
 jest.mock("next/link", () => {
@@ -54,11 +46,6 @@ describe("RevealCard", () => {
     mockedUseRouter.mockReturnValue({
       push: jest.fn(),
       refresh: jest.fn(),
-    });
-    // navigator.clipboardをモック
-    Object.defineProperty(navigator, "clipboard", {
-      value: { writeText: jest.fn() },
-      writable: true,
     });
   });
 

@@ -19,6 +19,7 @@ export const sendOTPCode = async (formData: FormData) => {
   const supabase = await createClient();
   
   console.log('Sending OTP to:', email);
+  
   const baseUrl = getBaseUrl();
   
   const { data, error } = await supabase.auth.signInWithOtp({
