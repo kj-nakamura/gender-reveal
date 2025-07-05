@@ -1,7 +1,7 @@
 // app/reveals/actions.ts
 'use server'
 
-import { createClient } from '../../../lib/supabase/server'
+import { createClient } from '../../lib/supabase/server'
 import { redirect } from 'next/navigation'
 
 // 共有用のランダムな文字列を生成するシンプルな関数
