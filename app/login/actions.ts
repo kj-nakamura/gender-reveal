@@ -7,16 +7,21 @@ import { redirect } from "next/navigation";
 export const signup = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  
+  console.log("Signup attempt:", { email, password: "***" });
+  
   const supabase = await createClient();
-
-  const { error } = await supabase.auth.signUp({
+  
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
 
+  console.log("Signup result:", { data, error });
+
   if (error) {
-    // エラー処理（例: エラーページにリダイレクト）
-    return redirect("/login?message=Could not authenticate user");
+    console.error('Signup error:', error);
+    return redirect(`/login?message=${encodeURIComponent(error.message)}`);
   }
 
   // 新規登録後はメール確認を促すページにリダイレクトするのが親切

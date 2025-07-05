@@ -3,13 +3,58 @@ import { login, signup } from "./actions";
 
 export default function LoginPage() {
   return (
-    <form>
-      <label htmlFor="email">Email</label>
-      <input id="email" name="email" type="email" required />
-      <label htmlFor="password">Password</label>
-      <input id="password" name="password" type="password" required />
-      <button formAction={login}>Log in</button>
-      <button formAction={signup}>Sign up</button>
-    </form>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 flex items-center justify-center p-8">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          ログイン / 新規登録
+        </h1>
+        
+        <form className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              メールアドレス
+            </label>
+            <input 
+              id="email" 
+              name="email" 
+              type="email" 
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              placeholder="example@email.com"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              パスワード
+            </label>
+            <input 
+              id="password" 
+              name="password" 
+              type="password" 
+              required 
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              placeholder="パスワードを入力"
+            />
+          </div>
+          
+          <div className="space-y-3 pt-4">
+            <button 
+              formAction={login}
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+            >
+              ログイン
+            </button>
+            
+            <button 
+              formAction={signup}
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-md hover:from-pink-600 hover:to-purple-700 transition-all duration-300"
+            >
+              新規登録
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
