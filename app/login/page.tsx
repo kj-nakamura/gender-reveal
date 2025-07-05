@@ -13,6 +13,9 @@ function LoginForm() {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'error' | 'success'>('error');
   const [authMode, setAuthMode] = useState<'otp' | 'password'>('otp');
+  
+  // パスワードタブの表示フラグ
+  const showPasswordTab = false;
 
   // クライアントサイドでのみ searchParams を読み取り
   useEffect(() => {
@@ -162,33 +165,35 @@ function LoginForm() {
         </h1>
         
         {/* 認証方式選択タブ */}
-        <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
-          <button
-            type="button"
-            onClick={() => setAuthMode('otp')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
-              authMode === 'otp'
-                ? 'bg-white text-pink-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            メール認証
-          </button>
-          <button
-            type="button"
-            onClick={() => setAuthMode('password')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
-              authMode === 'password'
-                ? 'bg-white text-pink-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            パスワード
-          </button>
-        </div>
+        {showPasswordTab && (
+          <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+            <button
+              type="button"
+              onClick={() => setAuthMode('otp')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                authMode === 'otp'
+                  ? 'bg-white text-pink-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              メール認証
+            </button>
+            <button
+              type="button"
+              onClick={() => setAuthMode('password')}
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                authMode === 'password'
+                  ? 'bg-white text-pink-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              パスワード
+            </button>
+          </div>
+        )}
 
         <p className="text-gray-600 text-center mb-6">
-          {authMode === 'otp' 
+          {!showPasswordTab || authMode === 'otp' 
             ? 'メールアドレスに認証コードを送信します' 
             : 'メールアドレスとパスワードでログインします'}
         </p>
@@ -203,7 +208,7 @@ function LoginForm() {
           </div>
         )}
         
-        <form onSubmit={authMode === 'password' ? handleSubmit : handleSubmit} className="space-y-6">
+        <form onSubmit={(!showPasswordTab || authMode === 'otp') ? handleSubmit : handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               メールアドレス
@@ -219,7 +224,7 @@ function LoginForm() {
             />
           </div>
           
-          {authMode === 'password' && (
+          {showPasswordTab && authMode === 'password' && (
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                 パスワード
@@ -241,10 +246,10 @@ function LoginForm() {
             disabled={isLoading}
             className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-md hover:from-pink-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? '処理中...' : (authMode === 'otp' ? '認証コードを送信' : 'ログイン')}
+            {isLoading ? '処理中...' : ((!showPasswordTab || authMode === 'otp') ? '認証コードを送信' : 'ログイン')}
           </button>
           
-          {authMode === 'password' && (
+          {showPasswordTab && authMode === 'password' && (
             <>
               <button 
                 type="button"
@@ -300,7 +305,7 @@ function LoginForm() {
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">
-          {authMode === 'otp' ? (
+          {!showPasswordTab || authMode === 'otp' ? (
             <>
               <p>メールアドレスに6桁の認証コードが送信されます</p>
               <p>初回利用時は自動的にアカウントが作成されます</p>
