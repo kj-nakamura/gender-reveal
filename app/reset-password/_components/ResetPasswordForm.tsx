@@ -27,7 +27,10 @@ export default function ResetPasswordForm() {
     setIsLoading(true);
 
     try {
+      console.log("Submitting password update...");
       const result = await updatePassword(password);
+      console.log("Password update result:", result);
+      
       if (result.success) {
         setIsSuccess(true);
         setMessage("パスワードが正常に更新されました。ログインページにリダイレクトします...");
@@ -35,10 +38,12 @@ export default function ResetPasswordForm() {
           window.location.href = '/login';
         }, 2000);
       } else {
+        console.error("Password update failed:", result.error);
         setMessage(result.error || "パスワードの更新に失敗しました");
       }
-    } catch {
-      setMessage("エラーが発生しました");
+    } catch (error) {
+      console.error("Client-side error:", error);
+      setMessage(`エラーが発生しました: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

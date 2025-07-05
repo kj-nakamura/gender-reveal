@@ -10,18 +10,22 @@ export async function resetPassword(email: string) {
   const baseUrl = getBaseUrl();
 
   try {
+    console.log("Sending password reset email to:", email);
+    console.log("Redirect URL:", `${baseUrl}/auth/callback?next=/reset-password&type=recovery`);
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${baseUrl}/reset-password`,
+      redirectTo: `${baseUrl}/auth/callback?next=/reset-password&type=recovery`,
     });
 
     if (error) {
       console.error("Password reset error:", error);
-      return { success: false, error: "パスワードリセットメールの送信に失敗しました" };
+      return { success: false, error: `パスワードリセットメールの送信に失敗しました: ${error.message}` };
     }
 
+    console.log("Password reset email sent successfully");
     return { success: true };
   } catch (error) {
     console.error("Unexpected error:", error);
-    return { success: false, error: "予期しないエラーが発生しました" };
+    return { success: false, error: `予期しないエラーが発生しました: ${error instanceof Error ? error.message : 'Unknown error'}` };
   }
 }

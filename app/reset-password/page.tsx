@@ -7,10 +7,12 @@ import Link from "next/link";
 export default async function ResetPasswordPage() {
   const supabase = await createClient();
   
-  // 既にログインしている場合はマイページにリダイレクト
+  // ユーザーがパスワードリセットのセッションを持っているかチェック
   const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    redirect('/mypage');
+  
+  // ユーザーが存在しない場合はログインページにリダイレクト
+  if (!user) {
+    redirect('/login?message=reset_session_expired');
   }
 
   return (

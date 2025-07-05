@@ -2,7 +2,6 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 import { getBaseUrl } from "@/utils/get-base-url";
 
 // メール認証コードを送信
@@ -26,14 +25,17 @@ export const sendOTPCode = async (formData: FormData) => {
     email,
     baseUrl,
     redirectTo: `${baseUrl}/verify-otp?email=${encodeURIComponent(email)}`,
-    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    environment: process.env.NODE_ENV,
+    vercelUrl: process.env.VERCEL_URL
   });
 
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
       shouldCreateUser: true, // ユーザーが存在しない場合は自動作成
-      emailRedirectTo: `${baseUrl}/verify-otp?email=${encodeURIComponent(email)}`,
+      // 一時的にemailRedirectToを削除してテスト
+      // emailRedirectTo: `${baseUrl}/verify-otp?email=${encodeURIComponent(email)}`,
     }
   });
 
@@ -70,13 +72,13 @@ export const verifyOTPCode = async (email: string, token: string) => {
   return { success: true };
 };
 
-// 従来のパスワードログイン（後方互換性のため残す）
+// パスワードログイン
 export const login = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   
   if (!email || !password) {
-    redirect("/login?message=required");
+    return { success: false as const, error: "メールアドレスとパスワードは必須です" };
   }
   
   const supabase = await createClient();
@@ -87,19 +89,20 @@ export const login = async (formData: FormData) => {
   });
 
   if (error) {
-    redirect("/login?message=login_error");
+    console.error('Password login error:', error);
+    return { success: false as const, error: `ログインに失敗しました: ${error.message}` };
   }
 
-  redirect("/");
+  return { success: true as const };
 };
 
-// 従来のパスワード新規登録（後方互換性のため残す）
+// パスワード新規登録
 export const signup = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   
   if (!email || !password) {
-    redirect("/login?message=required");
+    return { success: false as const, error: "メールアドレスとパスワードは必須です" };
   }
   
   const supabase = await createClient();
@@ -112,16 +115,20 @@ export const signup = async (formData: FormData) => {
   if (error) {
     console.error('Signup error:', error);
     
-    if (error.message === 'User already registered') {
-      redirect("/login?message=already_registered");
+    if (error.message === 'User already registered' || error.message.includes('already registered')) {
+      return { success: false as const, error: "既に登録済みのメールアドレスです。パスワードリセットを使用してパスワードを設定してください。" };
     }
     
-    redirect("/login?message=signup_error");
+    if (error.message.includes('Email rate limit exceeded')) {
+      return { success: false as const, error: "メール送信制限に達しています。しばらく待ってから再試行してください。" };
+    }
+    
+    return { success: false as const, error: `新規登録に失敗しました: ${error.message}` };
   }
 
   if (data.user && !data.user.email_confirmed_at) {
-    redirect("/login?message=check_email");
+    return { success: true as const, message: "メールアドレスの確認を行ってください" };
   }
 
-  redirect("/login?message=signup_success");
+  return { success: true as const, message: "新規登録が完了しました" };
 };

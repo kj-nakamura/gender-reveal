@@ -28,23 +28,32 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 
 ### 3. よくある問題
 
-#### A. リダイレクトURL不一致
+#### A. **メール送信制限エラー (最も可能性が高い)**
+```
+Error: Error sending magic link email
+Status: 500, Code: unexpected_failure
+```
+**原因:** 
+- Supabase無料プランの時間あたりメール送信制限（2-3通/時間）
+- 無料プランでのメール送信プロバイダーの不安定性
+- カスタムSMTPが設定されていない
+
+**解決策:**
+1. **即座の対応:** 1時間待ってから再試行
+2. **根本解決:** カスタムSMTP設定（SendGrid、Resend等）
+3. **プラン変更:** Supabase Pro プランへのアップグレード
+
+#### B. リダイレクトURL不一致
 ```
 Error: Invalid redirect URL
 ```
 - Supabaseの設定でリダイレクトURLが正確に登録されているか確認
 
-#### B. 環境変数の設定ミス
+#### C. 環境変数の設定ミス
 ```
 Error: Invalid API key
 ```
 - 本番用のSupabaseプロジェクトのAPIキーが正しく設定されているか
-
-#### C. メール送信制限
-```
-Error: Too many requests
-```
-- Supabaseのメール送信制限（時間あたり）に達している可能性
 
 #### D. ドメイン設定の問題
 ```
