@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import "./TemplateA.css";
 
 type Props = {
   gender: string;
