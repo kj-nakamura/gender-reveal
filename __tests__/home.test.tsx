@@ -1,71 +1,41 @@
 import { render, screen } from "@testing-library/react";
 import Home from "../app/page";
 
-// next/imageをモック
-jest.mock("next/image", () => ({
-  __esModule: true,
-  default: (props: any) => {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} />;
-  },
-}));
-
 describe("Home", () => {
   it("renders the main heading", () => {
     render(<Home />);
-
-    // Next.js logo image
-    expect(screen.getByAltText("Next.js logo")).toBeInTheDocument();
+    const heading = screen.getByRole("heading", {
+      name: /ジェンダーリビール/,
+    });
+    expect(heading).toBeInTheDocument();
   });
 
-  it("renders the getting started text", () => {
+  it("renders the description", () => {
     render(<Home />);
-
-    expect(screen.getByText("Get started by editing")).toBeInTheDocument();
-    expect(screen.getByText("src/app/page.tsx")).toBeInTheDocument();
-    expect(screen.getByText("Save and see your changes instantly.")).toBeInTheDocument();
+    const description = screen.getByText(
+      /赤ちゃんの性別を特別な方法で発表しませんか？/
+    );
+    expect(description).toBeInTheDocument();
   });
 
-  it("renders navigation links", () => {
+  it('renders "ログイン / 新規登録" link', () => {
     render(<Home />);
-
-    // Deploy now button
-    const deployLink = screen.getByRole("link", { name: /deploy now/i });
-    expect(deployLink).toBeInTheDocument();
-    expect(deployLink).toHaveAttribute("href", expect.stringContaining("vercel.com"));
-
-    // Read our docs button
-    const docsLink = screen.getByRole("link", { name: /read our docs/i });
-    expect(docsLink).toBeInTheDocument();
-    expect(docsLink).toHaveAttribute("href", expect.stringContaining("nextjs.org/docs"));
+    const loginLink = screen.getByRole("link", { name: /ログイン \/ 新規登録/ });
+    expect(loginLink).toBeInTheDocument();
+    expect(loginLink).toHaveAttribute("href", "/login");
   });
 
-  it("renders footer links", () => {
+  it('renders "デザインを見る" link', () => {
     render(<Home />);
-
-    // Learn link
-    const learnLink = screen.getByRole("link", { name: /learn/i });
-    expect(learnLink).toBeInTheDocument();
-    expect(learnLink).toHaveAttribute("href", expect.stringContaining("nextjs.org/learn"));
-
-    // Examples link
-    const examplesLink = screen.getByRole("link", { name: /examples/i });
-    expect(examplesLink).toBeInTheDocument();
-    expect(examplesLink).toHaveAttribute("href", expect.stringContaining("vercel.com/templates"));
-
-    // Go to nextjs.org link
-    const nextjsLink = screen.getByRole("link", { name: /go to nextjs.org/i });
-    expect(nextjsLink).toBeInTheDocument();
-    expect(nextjsLink).toHaveAttribute("href", expect.stringContaining("nextjs.org"));
+    const createLink = screen.getByRole("link", { name: /デザインを見る/ });
+    expect(createLink).toBeInTheDocument();
+    expect(createLink).toHaveAttribute("href", "/create");
   });
 
-  it("renders images with correct alt text", () => {
+  it("renders the feature list", () => {
     render(<Home />);
-
-    expect(screen.getByAltText("Next.js logo")).toBeInTheDocument();
-    expect(screen.getByAltText("Vercel logomark")).toBeInTheDocument();
-    expect(screen.getByAltText("File icon")).toBeInTheDocument();
-    expect(screen.getByAltText("Window icon")).toBeInTheDocument();
-    expect(screen.getByAltText("Globe icon")).toBeInTheDocument();
+    expect(screen.getByText(/複数のデザインテンプレートから選択/)).toBeInTheDocument();
+    expect(screen.getByText(/共有リンクで家族や友人と共有/)).toBeInTheDocument();
+    expect(screen.getByText(/特別な瞬間を演出/)).toBeInTheDocument();
   });
 });
