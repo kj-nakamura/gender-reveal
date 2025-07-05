@@ -21,11 +21,6 @@ export const createReveal = async (templateId: string, gender: 'boy' | 'girl') =
     return redirect('/login')
   }
 
-  // 2. メール認証チェック
-  if (!user.email_confirmed_at) {
-    return redirect('/verify-email')
-  }
-
   // 2. 共有用のユニークな文字列を生成
   const slug = generateSlug()
 
@@ -57,11 +52,6 @@ export const deleteReveal = async (revealId: string) => {
 
   if (!user) {
     return redirect('/login')
-  }
-
-  // 2. メール認証チェック
-  if (!user.email_confirmed_at) {
-    return redirect('/verify-email')
   }
 
   // 2. 該当するリビールを削除（自分のもののみ）

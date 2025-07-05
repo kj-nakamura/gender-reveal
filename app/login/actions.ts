@@ -4,6 +4,26 @@
 import { createClient } from "@/utils/supabase/server";
 import { getBaseUrl } from "@/utils/get-base-url";
 
+// Googleログイン
+export const signInWithGoogle = async () => {
+  const supabase = await createClient();
+  const baseUrl = getBaseUrl();
+  
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `${baseUrl}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    console.error('Google login error:', error);
+    return { success: false as const, error: 'Googleログインに失敗しました' };
+  }
+
+  return { success: true as const, url: data.url };
+};
+
 // メール認証コードを送信
 export const sendOTPCode = async (formData: FormData) => {
   const email = formData.get("email") as string;

@@ -16,7 +16,8 @@ export async function GET(request: NextRequest) {
       if (type === 'recovery') {
         return NextResponse.redirect(new URL('/reset-password', request.url))
       }
-      return NextResponse.redirect(new URL(next, request.url))
+      // 認証成功時はマイページにリダイレクト
+      return NextResponse.redirect(new URL('/mypage', request.url))
     }
   }
 
