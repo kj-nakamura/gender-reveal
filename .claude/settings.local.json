@@ -5,7 +5,11 @@
       "Bash(npm run test:ci:*)",
       "Bash(find:*)",
       "Bash(rm:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run test:*)",
+      "Bash(npm run type-check:*)"
     ],
     "deny": []
   }
