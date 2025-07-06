@@ -11,13 +11,22 @@ type Props = {
 export default function TemplateA({ gender }: Props) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleReveal = () => {
+  const handleReveal = async () => {
     if (gender === "girl") {
       setIsPlaying(true);
+      setVideoError(false);
       if (videoRef.current) {
-        videoRef.current.play();
+        try {
+          await videoRef.current.play();
+        } catch (error) {
+          console.error('Video play failed:', error);
+          // ビデオ再生に失敗した場合はエラーメッセージを表示
+          setIsPlaying(false);
+          setVideoError(true);
+        }
       }
     } else {
       setIsRevealed(true);
@@ -37,9 +46,10 @@ export default function TemplateA({ gender }: Props) {
             src="/gender-reveal.mp4"
             onEnded={handleVideoEnd}
             className="reveal-video"
-            controls={false}
-            autoPlay
+            controls
             muted
+            playsInline
+            preload="metadata"
           />
         </div>
       </div>
@@ -51,6 +61,12 @@ export default function TemplateA({ gender }: Props) {
       <div className="template-a-container">
         <div className="initial-view-a">
           <h1>性別が決まったよ！</h1>
+          {videoError && (
+            <div className="error-message">
+              動画の再生に失敗しました。<br />
+              ブラウザの設定を確認するか、再度お試しください。
+            </div>
+          )}
           <button className="reveal-button-a" onClick={handleReveal}>
             結果を見る！
           </button>
