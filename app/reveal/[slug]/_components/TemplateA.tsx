@@ -46,7 +46,7 @@ export default function TemplateA({ gender }: Props) {
     return (
       <div className="template-a-container">
         <div className="initial-view-a">
-          <h1>性別が決まったよ！</h1>
+          <h2>性別を発表するよ！</h2>
           {gifError && (
             <div className="error-message">
               アニメーションの読み込みに失敗しました。
@@ -55,7 +55,7 @@ export default function TemplateA({ gender }: Props) {
             </div>
           )}
           <button className="reveal-button-a" onClick={handleReveal}>
-            結果を見る！
+            タップしてね
           </button>
         </div>
       </div>

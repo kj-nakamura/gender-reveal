@@ -12,29 +12,56 @@
   color: #333;
 }
 
-.initial-view-a h1 {
-  font-size: 2.5rem;
+.initial-view-a h2 {
+  font-size: 2rem;
   font-weight: 700;
   color: #555;
   margin-bottom: 2rem;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
 .reveal-button-a {
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 1.2rem 2.8rem;
+  font-size: 1.2rem;
+  font-weight: 700;
   cursor: pointer;
-  border: 2px solid #ccc;
+  border: none;
   border-radius: 50px;
-  background-color: white;
-  color: #333;
-  transition: all 0.3s ease;
+  background-color: #c8b8d8;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(183, 148, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
-.reveal-button-a:hover {
-  background-color: #f0f0f0;
-  border-color: #aaa;
-  transform: translateY(-2px);
+.reveal-button-a::before {
+  content: "✨";
+  position: absolute;
+  left: 1rem;
+  font-size: 1rem;
+  animation: sparkle 2s infinite;
+}
+
+.reveal-button-a::after {
+  content: "✨";
+  position: absolute;
+  right: 1rem;
+  font-size: 1rem;
+  animation: sparkle 2s infinite 0.5s;
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
 }
 
 .revealed-view-a h1 {
