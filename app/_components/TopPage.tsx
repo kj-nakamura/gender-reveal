@@ -9,10 +9,13 @@ import { User } from "@supabase/supabase-js";
 export default function TopPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
+    setMounted(true);
+    
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
@@ -38,6 +41,47 @@ export default function TopPage() {
       router.push('/login');
     }
   };
+
+  // Hydration防止：マウント前は静的コンテンツのみ表示
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+        {/* 静的ヘッダー */}
+        <header className="bg-white/80 backdrop-blur-sm shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <h1 className="text-2xl font-bold text-gray-900 zen-maru-gothic">
+                性別発表カード
+              </h1>
+              <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300">
+                ログイン
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* 静的メインコンテンツ */}
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6 zen-maru-gothic">
+              特別な瞬間を
+              <br />
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                みんなで共有
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+              大切な赤ちゃんの性別発表を、素敵なアニメーションと一緒に<br />
+              家族や友人に共有できるサービスです
+            </p>
+            <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold">
+              今すぐ始める
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
