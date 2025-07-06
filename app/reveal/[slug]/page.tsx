@@ -20,27 +20,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (error || !reveal) {
     return {
       title: "性別発表カード",
-      description: "大切な人と一緒に性別を発表！特別な瞬間をシェアできるジェンダーリビールカードサービス",
+      description: "特別な瞬間をシェアできるジェンダーリビールカードサービス",
     };
   }
 
-  const genderText = reveal.gender === "boy" ? "男の子" : "女の子";
-  const templateText = reveal.template_id === "template_A" ? "シンプルデザイン" : "バルーンデザイン";
-  
   return {
-    title: `性別発表カード - ${genderText}の発表`,
-    description: `${templateText}で${genderText}を発表！特別な瞬間をみんなで共有しましょう。`,
+    title: `性別発表カード`,
+    description: `特別な瞬間をみんなで共有しましょう。`,
     openGraph: {
-      title: `性別発表カード - ${genderText}の発表`,
-      description: `${templateText}で${genderText}を発表！特別な瞬間をみんなで共有しましょう。`,
+      title: `性別発表カード`,
+      description: `特別な瞬間をみんなで共有しましょう。`,
       type: "website",
       locale: "ja_JP",
       siteName: "性別発表カード",
     },
     twitter: {
       card: "summary_large_image",
-      title: `性別発表カード - ${genderText}の発表`,
-      description: `${templateText}で${genderText}を発表！特別な瞬間をみんなで共有しましょう。`,
+      title: `性別発表カード`,
+      description: `特別な瞬間をみんなで共有しましょう。`,
     },
   };
 }
