@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
+import CommonHeader from "./CommonHeader";
 
 export default function TopPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -46,20 +47,8 @@ export default function TopPage() {
   if (!mounted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
-        {/* 静的ヘッダー */}
-        <header className="bg-white/80 backdrop-blur-sm shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <h1 className="text-2xl font-bold text-gray-900 zen-maru-gothic">
-                性別発表カード
-              </h1>
-              <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300">
-                ログイン
-              </button>
-            </div>
-          </div>
-        </header>
-
+        <CommonHeader showAuthButton={false} />
+        
         {/* 静的メインコンテンツ */}
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">
           <div className="text-center mb-20">
@@ -93,22 +82,7 @@ export default function TopPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
-      {/* ヘッダー */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <h1 className="text-2xl font-bold text-gray-900 zen-maru-gothic">
-              性別発表カード
-            </h1>
-            <button
-              onClick={handleGetStarted}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300"
-            >
-              {user ? 'マイページ' : 'ログイン'}
-            </button>
-          </div>
-        </div>
-      </header>
+      <CommonHeader />
 
       {/* メインコンテンツ */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">

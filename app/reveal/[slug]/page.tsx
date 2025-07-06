@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
-import Header from "@/app/_components/Header";
+import CommonHeader from "@/app/_components/CommonHeader";
 import { Metadata } from "next";
 
 // OGP用のメタデータ生成
@@ -47,6 +47,9 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const supabase = await createClient();
 
+  // ユーザー認証チェック（ヘッダー表示判定用）
+  const { data: { user } } = await supabase.auth.getUser();
+
   // URLのslugを使って、データベースから該当するデータを取得（認証不要）
   const { data: reveal, error } = await supabase
     .from("reveals")
@@ -75,7 +78,7 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
 
   return (
     <div>
-      <Header />
+      {user && <CommonHeader />}
       {renderTemplate()}
     </div>
   );
