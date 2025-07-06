@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
+import { siteConfig } from "@/config/site";
 
 type Props = {
   showAuthButton?: boolean;
@@ -47,6 +48,30 @@ export default function CommonHeader({ showAuthButton = true }: Props) {
     router.push('/');
   };
 
+  // メールアドレスからランダムカラーを生成
+  const getAvatarColor = (email: string) => {
+    const colors = [
+      'bg-red-500',
+      'bg-blue-500', 
+      'bg-green-500',
+      'bg-yellow-500',
+      'bg-purple-500',
+      'bg-pink-500',
+      'bg-indigo-500',
+      'bg-orange-500',
+      'bg-teal-500',
+      'bg-cyan-500'
+    ];
+    
+    let hash = 0;
+    for (let i = 0; i < email.length; i++) {
+      hash = email.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+  };
+
   return (
     <header className="bg-white/80 backdrop-blur-sm shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,15 +80,15 @@ export default function CommonHeader({ showAuthButton = true }: Props) {
             onClick={handleLogoClick}
             className="text-2xl font-bold text-gray-900 zen-maru-gothic hover:text-purple-600 transition-colors"
           >
-            性別発表カード
+            {siteConfig.name}
           </button>
           
           {showAuthButton && (
             <div className="flex items-center gap-4">
               {user && (
-                <span className="text-sm text-gray-600 hidden sm:block">
-                  {user.email}
-                </span>
+                <div className={`w-10 h-10 ${getAvatarColor(user.email || '')} rounded-full flex items-center justify-center text-white font-bold text-sm`}>
+                  {user.email?.charAt(0).toUpperCase() || 'U'}
+                </div>
               )}
               {!loading && (
                 <button
