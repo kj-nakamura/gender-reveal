@@ -11,45 +11,30 @@ type Props = {
 export default function TemplateA({ gender }: Props) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [gifError, setGifError] = useState(false);
 
-  const handleReveal = async () => {
+  const handleReveal = () => {
     if (gender === "girl") {
       setIsPlaying(true);
-      setVideoError(false);
-      if (videoRef.current) {
-        try {
-          await videoRef.current.play();
-        } catch (error) {
-          console.error('Video play failed:', error);
-          // ビデオ再生に失敗した場合はエラーメッセージを表示
-          setIsPlaying(false);
-          setVideoError(true);
-        }
-      }
+      setGifError(false);
+      // GIFアニメーション終了後に初期画面に戻る
+      setTimeout(() => {
+        setIsPlaying(false);
+      }, 21000); // 3秒後に初期画面に戻る（GIFの長さに応じて調整）
     } else {
       setIsRevealed(true);
     }
-  };
-
-  const handleVideoEnd = () => {
-    setIsPlaying(false);
   };
 
   if (isPlaying && gender === "girl") {
     return (
       <div className="template-a-container">
         <div className="video-container">
-          <video
-            ref={videoRef}
-            src="/gender-reveal.mp4"
-            onEnded={handleVideoEnd}
-            className="reveal-video"
-            controls
-            muted
-            playsInline
-            preload="metadata"
+          <img
+            src="/reveal-girl.gif"
+            alt="Gender Reveal Animation"
+            className="reveal-gif"
+            onError={() => setGifError(true)}
           />
         </div>
       </div>
@@ -61,10 +46,11 @@ export default function TemplateA({ gender }: Props) {
       <div className="template-a-container">
         <div className="initial-view-a">
           <h1>性別が決まったよ！</h1>
-          {videoError && (
+          {gifError && (
             <div className="error-message">
-              動画の再生に失敗しました。<br />
-              ブラウザの設定を確認するか、再度お試しください。
+              アニメーションの読み込みに失敗しました。
+              <br />
+              再度お試しください。
             </div>
           )}
           <button className="reveal-button-a" onClick={handleReveal}>
