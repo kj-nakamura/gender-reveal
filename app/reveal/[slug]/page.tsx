@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
+import Header from "@/app/_components/Header";
 
 // ページのメイン部分 - 誰でもアクセス可能
 export default async function RevealPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -23,13 +24,22 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
   }
 
   // template_idに応じて、表示するコンポーネントを切り替える
-  switch (reveal.template_id) {
-    case "template_A":
-      return <TemplateA gender={reveal.gender} />;
-    case "template_B":
-      return <TemplateB gender={reveal.gender} />;
-    default:
-      // 該当テンプレートがなければ404
-      notFound();
-  }
+  const renderTemplate = () => {
+    switch (reveal.template_id) {
+      case "template_A":
+        return <TemplateA gender={reveal.gender} />;
+      case "template_B":
+        return <TemplateB gender={reveal.gender} />;
+      default:
+        // 該当テンプレートがなければ404
+        notFound();
+    }
+  };
+
+  return (
+    <div>
+      <Header />
+      {renderTemplate()}
+    </div>
+  );
 }
