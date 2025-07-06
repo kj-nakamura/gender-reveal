@@ -1,7 +1,7 @@
 // app/reveal/[slug]/_components/TemplateA.tsx
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "./TemplateA.css";
 
 type Props = {
@@ -30,6 +30,7 @@ export default function TemplateA({ gender }: Props) {
     return (
       <div className="template-a-container">
         <div className="video-container">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/reveal-girl.gif"
             alt="Gender Reveal Animation"
