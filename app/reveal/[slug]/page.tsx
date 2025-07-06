@@ -3,8 +3,9 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
-import Header from "@/app/_components/Header";
+import CommonHeader from "@/app/_components/CommonHeader";
 import { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
 // OGP用のメタデータ生成
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -19,25 +20,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (error || !reveal) {
     return {
-      title: "性別発表カード",
-      description: "特別な瞬間をシェアできるジェンダーリビールカードサービス",
+      title: siteConfig.name,
+      description: siteConfig.description,
     };
   }
 
   return {
-    title: `性別発表カード`,
-    description: `特別な瞬間をみんなで共有しましょう。`,
+    title: siteConfig.name,
+    description: siteConfig.description,
     openGraph: {
-      title: `性別発表カード`,
-      description: `特別な瞬間をみんなで共有しましょう。`,
+      title: siteConfig.name,
+      description: siteConfig.description,
       type: "website",
       locale: "ja_JP",
-      siteName: "性別発表カード",
+      siteName: siteConfig.name,
+      url: siteConfig.url,
+      images: [
+        {
+          url: siteConfig.ogImage,
+          width: 1200,
+          height: 630,
+          alt: siteConfig.name,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `性別発表カード`,
-      description: `特別な瞬間をみんなで共有しましょう。`,
+      title: siteConfig.name,
+      description: siteConfig.description,
+      images: [siteConfig.ogImage],
     },
   };
 }
@@ -46,6 +57,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function RevealPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const supabase = await createClient();
+
+  // ユーザー認証チェック（ヘッダー表示判定用）
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // URLのslugを使って、データベースから該当するデータを取得（認証不要）
   const { data: reveal, error } = await supabase
@@ -75,7 +91,7 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
 
   return (
     <div>
-      <Header />
+      {user && <CommonHeader />}
       {renderTemplate()}
     </div>
   );

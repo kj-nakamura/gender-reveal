@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Zen_Maru_Gothic } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,19 +20,29 @@ const zenMaruGothic = Zen_Maru_Gothic({
 });
 
 export const metadata: Metadata = {
-  title: "性別発表カード",
-  description: "特別な瞬間をシェアできるジェンダーリビールカードサービス",
+  title: siteConfig.name,
+  description: siteConfig.description,
   openGraph: {
-    title: "性別発表カード",
-    description: "特別な瞬間をシェアできるジェンダーリビールカードサービス",
+    title: siteConfig.name,
+    description: siteConfig.description,
     type: "website",
     locale: "ja_JP",
-    siteName: "性別発表カード",
+    siteName: siteConfig.name,
+    url: siteConfig.url,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "性別発表カード",
-    description: "特別な瞬間をシェアできるジェンダーリビールカードサービス",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
   },
 };
 

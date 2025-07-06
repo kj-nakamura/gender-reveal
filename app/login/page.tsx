@@ -4,6 +4,7 @@
 import { sendOTPCode, login, signup, signInWithGoogle } from "./actions";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useState, useEffect } from "react";
+import CommonHeader from "@/app/_components/CommonHeader";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -137,11 +138,13 @@ function LoginForm() {
   const displayMessageType = message ? messageType : (urlMessage ? urlMessage.type : 'error');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 flex items-center justify-center p-8">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          ログイン
-        </h1>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50">
+      <CommonHeader showAuthButton={false} />
+      <div className="flex items-center justify-center p-8 pt-24">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            ログイン
+          </h1>
         
         {/* 認証方式選択タブ */}
         {showPasswordTab && (
@@ -288,23 +291,24 @@ function LoginForm() {
               Googleアカウントでログイン
             </button>
           </form>
-        </div>
+          </div>
 
-        <div className="mt-6 text-center text-sm text-gray-500">
-          {!showPasswordTab || authMode === 'otp' ? (
-            <>
-              <p>メールアドレスに6桁の認証コードが送信されます</p>
-              <p>初回利用時は自動的にアカウントが作成されます</p>
-            </>
-          ) : (
-            <>
-              <p>既存のアカウントでログインするか、新規登録を行ってください</p>
-              <p className="mt-2 text-xs">
-                ※ メール認証で作成されたアカウントは、<br/>
-                「既存アカウントにパスワードを設定」からパスワードを設定してください
-              </p>
-            </>
-          )}
+          <div className="mt-6 text-center text-sm text-gray-500">
+            {!showPasswordTab || authMode === 'otp' ? (
+              <>
+                <p>メールアドレスに6桁の認証コードが送信されます</p>
+                <p>初回利用時は自動的にアカウントが作成されます</p>
+              </>
+            ) : (
+              <>
+                <p>既存のアカウントでログインするか、新規登録を行ってください</p>
+                <p className="mt-2 text-xs">
+                  ※ メール認証で作成されたアカウントは、<br/>
+                  「既存アカウントにパスワードを設定」からパスワードを設定してください
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

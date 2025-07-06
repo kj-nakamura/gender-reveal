@@ -17,3 +17,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.zen-maru-gothic {
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
