@@ -39,9 +39,23 @@ jest.mock('next/navigation', () => ({
 const originalError = console.error
 beforeAll(() => {
   console.error = (...args) => {
-    if (typeof args[0] === 'string' && args[0].includes('Warning: ReactDOM.render is no longer supported')) {
+    const message = typeof args[0] === 'string' ? args[0] : ''
+    
+    // Suppress React DOM warnings
+    if (message.includes('Warning: ReactDOM.render is no longer supported')) {
       return
     }
+    
+    // Suppress React act() warnings in tests
+    if (message.includes('An update to') && message.includes('inside a test was not wrapped in act(...)')) {
+      return
+    }
+    
+    // Suppress expected login/signup errors in tests
+    if (message.includes('Password login error:') || message.includes('Signup error:')) {
+      return
+    }
+    
     originalError.call(console, ...args)
   }
 })
