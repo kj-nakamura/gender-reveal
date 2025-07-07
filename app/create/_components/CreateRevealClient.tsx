@@ -44,7 +44,7 @@ export default function CreateRevealClient({ existingReveal }: Props) {
         {/* --- デザインテンプレートA --- */}
         <div className="template-card">
           <h2>七夕デザイン</h2>
-          <p>一番ベーシックなデザインです。</p>
+          <p>織姫と彦星デザインです。</p>
           <div className="button-group">
             <Link
               href="/template/template_A?gender=boy"
