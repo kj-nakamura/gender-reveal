@@ -57,4 +57,18 @@ describe("CreateRevealClient", () => {
     expect(screen.getAllByText("👦 男の子のサンプル")).toHaveLength(2);
     expect(screen.getAllByText("👧 女の子のサンプル")).toHaveLength(2);
   });
+
+  it("should render premium design with coming soon notice", () => {
+    render(<CreateRevealClient existingReveal={null} />);
+    expect(screen.getByText("✨ プレミアムデザイン（近日公開）")).toBeInTheDocument();
+  });
+
+  it("should render disabled premium buttons", () => {
+    render(<CreateRevealClient existingReveal={null} />);
+    const boyButton = screen.getByText("男の子で作成（購入へ）");
+    const girlButton = screen.getByText("女の子で作成（購入へ）");
+    
+    expect(boyButton).toBeDisabled();
+    expect(girlButton).toBeDisabled();
+  });
 });

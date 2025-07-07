@@ -83,11 +83,11 @@ export default function CreateRevealClient({ existingReveal }: Props) {
 
         {/* 将来的に有料テンプレートを追加するなら... */}
         <div className="template-card premium-card">
-          <h2>✨ プレミアムデザイン（有料）</h2>
+          <h2>✨ プレミアムデザイン（近日公開）</h2>
           <p>特別な日のための、豪華なエフェクト付きデザインです。</p>
           <div className="button-group">
-            <button className="create-button premium-button">男の子で作成（購入へ）</button>
-            <button className="create-button premium-button">女の子で作成（購入へ）</button>
+            <button className="create-button premium-button disabled" disabled>男の子で作成（購入へ）</button>
+            <button className="create-button premium-button disabled" disabled>女の子で作成（購入へ）</button>
           </div>
         </div>
       </main>
