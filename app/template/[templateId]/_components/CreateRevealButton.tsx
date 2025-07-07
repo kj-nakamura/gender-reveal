@@ -13,8 +13,16 @@ type Props = {
 
 export default function CreateRevealButton({ templateId, gender }: Props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [existingReveal, setExistingReveal] = useState<any>(null);
-  const [user, setUser] = useState<any>(null);
+  const [existingReveal, setExistingReveal] = useState<{
+    id: string;
+    template_id: string;
+    gender: string;
+    share_slug: string;
+  } | null>(null);
+  const [user, setUser] = useState<{
+    id: string;
+    email?: string;
+  } | null>(null);
 
   useEffect(() => {
     const checkUser = async () => {

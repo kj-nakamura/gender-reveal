@@ -3,7 +3,6 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
-import CommonHeader from "@/app/_components/CommonHeader";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
