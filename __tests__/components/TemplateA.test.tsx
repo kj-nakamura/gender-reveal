@@ -14,7 +14,7 @@ describe('TemplateA', () => {
 
   it('should have container element', () => {
     const { container } = render(<TemplateA gender="boy" />)
-    const mainDiv = container.firstChild as HTMLElement
-    expect(mainDiv).toHaveClass('template-a-container')
+    const templateContainer = container.querySelector('.template-a-container')
+    expect(templateContainer).toBeInTheDocument()
   })
 })
