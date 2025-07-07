@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import CommonHeader from "./CommonHeader";
-import { siteConfig } from "@/config/site";
+import CommonFooter from "./CommonFooter";
 
 export default function TopPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -178,12 +178,7 @@ export default function TopPage() {
         </div>
       </main>
 
-      {/* フッター */}
-      <footer className="bg-gray-100 py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-gray-600">
-          <p>&copy; 2025 {siteConfig.name}. All rights reserved.</p>
-        </div>
-      </footer>
+      <CommonFooter />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import RevealCard from "./_components/RevealCard";
 import LogoutButton from "./_components/LogoutButton";
 import DeleteUserButton from "./_components/DeleteUserButton";
 import CommonHeader from "@/app/_components/CommonHeader";
+import CommonFooter from "@/app/_components/CommonFooter";
 
 export default async function MyPage() {
   const supabase = await createClient();
@@ -28,9 +29,9 @@ export default async function MyPage() {
     .order("created_at", { ascending: false });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 flex flex-col">
       <CommonHeader />
-      <div className="container mx-auto p-6 pt-8 min-h-screen flex flex-col">
+      <div className="container mx-auto p-6 pt-8 flex-grow flex flex-col">
         <div className="mb-8">
           <h1 className="text-3xl font-bold zen-maru-gothic text-center">マイページ</h1>
           <p className="text-center text-gray-600 mt-2">{user.email}</p>
@@ -104,6 +105,7 @@ export default async function MyPage() {
           </div>
         </div>
       </div>
+      <CommonFooter />
     </div>
   );
 }
