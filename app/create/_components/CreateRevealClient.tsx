@@ -22,9 +22,12 @@ export default function CreateRevealClient({ existingReveal }: Props) {
         <div className="mb-8">
           <h1>{existingReveal ? "テンプレートを差し替え" : "デザインを選んで作成"}</h1>
           {existingReveal && (
-            <p className="text-blue-600 font-medium mt-2">
-              ℹ️ テンプレートを差し替えても、共有URLは変わりません
-            </p>
+            <>
+              <p className="text-blue-600 font-medium mt-2">ℹ️ テンプレートを差し替えても、共有URLは変わりません</p>
+              <p className="text-blue-600 font-medium mt-2">
+                ℹ️ 共有URLを変えたい場合は、リビールを削除して新しく作成してください。
+              </p>
+            </>
           )}
         </div>
 
@@ -32,16 +35,16 @@ export default function CreateRevealClient({ existingReveal }: Props) {
           <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h3 className="font-bold text-blue-800 mb-2">現在のリビール情報</h3>
             <p className="text-blue-700">
-              テンプレート: {existingReveal.template_id === "template_A" ? "シンプルデザイン" : "バルーンデザイン"} |
-              性別: {existingReveal.gender === "boy" ? "男の子" : "女の子"}
+              テンプレート: {existingReveal.template_id === "template_A" ? "七夕デザイン" : "バルーンデザイン"} | 性別:{" "}
+              {existingReveal.gender === "boy" ? "男の子" : "女の子"}
             </p>
           </div>
         )}
 
         {/* --- デザインテンプレートA --- */}
         <div className="template-card">
-          <h2>シンプルデザイン</h2>
-          <p>一番ベーシックなデザインです。</p>
+          <h2>七夕デザイン</h2>
+          <p>織姫と彦星デザインです。</p>
           <div className="button-group">
             <Link
               href="/template/template_A?gender=boy"
@@ -80,11 +83,11 @@ export default function CreateRevealClient({ existingReveal }: Props) {
 
         {/* 将来的に有料テンプレートを追加するなら... */}
         <div className="template-card premium-card">
-          <h2>✨ プレミアムデザイン（有料）</h2>
+          <h2>✨ プレミアムデザイン（近日公開）</h2>
           <p>特別な日のための、豪華なエフェクト付きデザインです。</p>
           <div className="button-group">
-            <button className="create-button premium-button">男の子で作成（購入へ）</button>
-            <button className="create-button premium-button">女の子で作成（購入へ）</button>
+            <button className="create-button premium-button disabled" disabled>男の子で作成（購入へ）</button>
+            <button className="create-button premium-button disabled" disabled>女の子で作成（購入へ）</button>
           </div>
         </div>
       </main>

@@ -7,11 +7,34 @@
   text-align: center;
   width: 100%;
   height: 100%;
-  font-family: "Arial", sans-serif;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
   overflow: hidden;
   position: relative;
   padding: 1rem;
   box-sizing: border-box;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Gender-specific backgrounds for revealed state */
+.template-b-container.boy-revealed {
+  background: linear-gradient(135deg, #89CFF0 0%, #4A90E2 50%, #2E86C1 100%);
+}
+
+.template-b-container.girl-revealed {
+  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #E91E63 100%);
+}
+
+/* Countdown background */
+.template-b-container.countdown {
+  background: linear-gradient(135deg, #FFF8DC 0%, #F0E68C 50%, #DAA520 100%);
+}
+
+.initial-view h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 2rem;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
 .initial-view .reveal-button {
@@ -23,15 +46,24 @@
   background-color: #ff69b4; /* Pink */
   color: white;
   transition: transform 0.2s;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
 .initial-view .reveal-button:hover {
   transform: scale(1.1);
 }
 
+.revealed-view h1 {
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
 .revealed-view .result-text {
   font-size: 4rem;
-  animation: fadeIn 2s ease-in-out;
+  animation: fadeIn 4s ease-in-out;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
 }
 
 .revealed-view .result-text.boy {
@@ -62,17 +94,44 @@
 
 /* Give each balloon a different starting position and delay */
 .balloon:nth-child(1) {
-  left: 10%;
+  left: 5%;
   animation-delay: 0s;
+  font-size: 3rem;
 }
 .balloon:nth-child(2) {
-  left: 50%;
-  animation-delay: 1.5s;
-  font-size: 4rem;
+  left: 20%;
+  animation-delay: 0.5s;
+  font-size: 3.5rem;
 }
 .balloon:nth-child(3) {
+  left: 35%;
+  animation-delay: 1s;
+  font-size: 4rem;
+}
+.balloon:nth-child(4) {
+  left: 50%;
+  animation-delay: 1.5s;
+  font-size: 3.2rem;
+}
+.balloon:nth-child(5) {
+  left: 65%;
+  animation-delay: 2s;
+  font-size: 3.8rem;
+}
+.balloon:nth-child(6) {
   left: 80%;
   animation-delay: 2.5s;
+  font-size: 3.4rem;
+}
+.balloon:nth-child(7) {
+  left: 15%;
+  animation-delay: 3s;
+  font-size: 3.6rem;
+}
+.balloon:nth-child(8) {
+  left: 75%;
+  animation-delay: 3.5s;
+  font-size: 3.1rem;
 }
 
 @keyframes rise {
@@ -94,5 +153,54 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Countdown View Styles */
+.countdown-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
+
+.countdown-view h1,
+.countdown-view h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
+
+.countdown-number {
+  font-size: 8rem;
+  font-weight: bold;
+  color: #ff69b4;
+  animation: pulse 1s ease-in-out infinite;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
+
+.countdown-view p {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  color: #666;
+  font-family: var(--font-zen-maru-gothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
