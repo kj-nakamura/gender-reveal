@@ -39,18 +39,56 @@ export default async function MyPage() {
         <div className="flex-1">
         {reveals && reveals.length > 0 ? (
           <div className="max-w-2xl mx-auto">
-            <div className="mb-6">
-              <h2 className="text-2xl font-semibold mb-4">あなたのリビール</h2>
-              <p className="text-gray-600 mb-4">アカウントごとに作成できるリビールは1つまでです。</p>
+            <div className="bg-gradient-to-r from-pink-100 via-purple-100 to-blue-100 rounded-3xl p-8 mb-8 border-2 border-pink-200 shadow-xl">
+              <div className="text-center mb-6">
+                <div className="text-6xl mb-4">🤱</div>
+                <h2 className="text-3xl font-bold zen-maru-gothic text-pink-700 mb-3">
+                  ✨ あなたの特別なリビール ✨
+                </h2>
+                <p className="text-pink-600 text-lg zen-maru-gothic">
+                  大切な瞬間をみんなとシェアしましょう 💕
+                </p>
+                <div className="flex justify-center items-center mt-4 space-x-2">
+                  <span className="text-2xl">🌸</span>
+                  <p className="text-sm text-purple-600 zen-maru-gothic">
+                    アカウントごとに作成できるリビールは1つまでです
+                  </p>
+                  <span className="text-2xl">🌸</span>
+                </div>
+              </div>
             </div>
             <RevealCard reveal={reveals[0]} />
+            <div className="text-center mt-6">
+              <Link 
+                href="/create"
+                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-full font-bold zen-maru-gothic shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                🎨 テンプレートを見る
+              </Link>
+            </div>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">まだリビールを作成していません</p>
-            <Link href="/create" className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold">
-              リビールを作成
-            </Link>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-50 rounded-3xl p-12 text-center border-2 border-yellow-200 shadow-xl">
+              <div className="text-8xl mb-6">👶</div>
+              <h2 className="text-3xl font-bold zen-maru-gothic text-purple-700 mb-4">
+                🎉 まだリビールを作成していません 🎉
+              </h2>
+              <p className="text-lg text-pink-600 mb-8 zen-maru-gothic">
+                特別な瞬間を素敵なアニメーションで発表しましょう ✨
+              </p>
+              <div className="flex justify-center items-center mb-8 space-x-3">
+                <span className="text-3xl">🌟</span>
+                <span className="text-3xl">💕</span>
+                <span className="text-3xl">🎈</span>
+              </div>
+              <Link 
+                href="/create" 
+                className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-4 rounded-full font-bold text-lg zen-maru-gothic shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                🎀 リビールを作成する 🎀
+              </Link>
+            </div>
           </div>
         )}
         </div>
