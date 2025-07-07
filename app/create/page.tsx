@@ -19,10 +19,5 @@ export default async function CreateRevealPage() {
   // 既存のリビールがあるかチェック
   const { data: existingReveal } = await supabase.from("reveals").select("*").eq("user_id", user.id).single();
 
-  if (existingReveal) {
-    // 既にリビールが存在する場合はマイページにリダイレクト
-    redirect("/mypage");
-  }
-
-  return <CreateRevealClient />;
+  return <CreateRevealClient existingReveal={existingReveal} />;
 }

@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import MobileLayout from "@/app/_components/MobileLayout";
 import "./TemplateA.css";
 
 type Props = {
@@ -28,46 +29,52 @@ export default function TemplateA({ gender }: Props) {
 
   if (isPlaying && gender === "girl") {
     return (
-      <div className="template-a-container">
-        <div className="video-container">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/reveal-girl.gif"
-            alt="Gender Reveal Animation"
-            className="reveal-gif"
-            onError={() => setGifError(true)}
-          />
+      <MobileLayout>
+        <div className="template-a-container">
+          <div className="video-container">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/reveal-girl.gif"
+              alt="Gender Reveal Animation"
+              className="reveal-gif"
+              onError={() => setGifError(true)}
+            />
+          </div>
         </div>
-      </div>
+      </MobileLayout>
     );
   }
 
   if (!isRevealed) {
     return (
-      <div className="template-a-container">
-        <div className="initial-view-a">
-          <h2>性別を発表するよ！</h2>
-          {gifError && (
-            <div className="error-message">
-              アニメーションの読み込みに失敗しました。
-              <br />
-              再度お試しください。
-            </div>
-          )}
-          <button className="reveal-button-a" onClick={handleReveal}>
-            タップしてね
-          </button>
+      <MobileLayout>
+        <div className="template-a-container">
+          <div className="initial-view-a">
+            <h2>性別を発表するよ！</h2>
+            {gifError && (
+              <div className="error-message">
+                アニメーションの読み込みに失敗しました。
+                <br />
+                再度お試しください。
+              </div>
+            )}
+            <button className="reveal-button-a" onClick={handleReveal}>
+              タップしてね
+            </button>
+          </div>
         </div>
-      </div>
+      </MobileLayout>
     );
   }
 
   return (
-    <div className="template-a-container">
-      <div className="revealed-view-a">
-        <h1>It&apos;s a ...</h1>
-        <h2 className={`result-text-a ${gender}`}>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
+    <MobileLayout>
+      <div className="template-a-container">
+        <div className="revealed-view-a">
+          <h1>It&apos;s a ...</h1>
+          <h2 className={`result-text-a ${gender}`}>{gender === "boy" ? "Boy! ♂" : "Girl! ♀"}</h2>
+        </div>
       </div>
-    </div>
+    </MobileLayout>
   );
 }

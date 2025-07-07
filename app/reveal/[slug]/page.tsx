@@ -3,7 +3,6 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
-import CommonHeader from "@/app/_components/CommonHeader";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
@@ -58,15 +57,11 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const supabase = await createClient();
 
-  // ユーザー認証チェック（ヘッダー表示判定用）
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   // URLのslugを使って、データベースから該当するデータを取得（認証不要）
   const { data: reveal, error } = await supabase
     .from("reveals")
-    .select("template_id, gender")
+    .select("template_id, gender, user_id")
     .eq("share_slug", slug)
     .single();
 
@@ -75,6 +70,7 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
     console.error("Reveal not found:", error);
     notFound();
   }
+
 
   // template_idに応じて、表示するコンポーネントを切り替える
   const renderTemplate = () => {
@@ -91,7 +87,6 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
 
   return (
     <div>
-      {user && <CommonHeader />}
       {renderTemplate()}
     </div>
   );

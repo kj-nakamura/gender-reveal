@@ -19,6 +19,10 @@ const customJestConfig = {
   transformIgnorePatterns: [
     '/node_modules/(?!(@supabase|isows)/)',
   ],
+  // Ensure React runs in development mode for tests
+  globals: {
+    'process.env.NODE_ENV': 'test',
+  },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

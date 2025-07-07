@@ -1,4 +1,17 @@
 import '@testing-library/jest-dom'
+import { act } from 'react'
+
+// Mock React.act to avoid production mode issues
+global.React = {
+  ...require('react'),
+  act: act || ((callback) => {
+    const result = callback()
+    return Promise.resolve(result)
+  })
+}
+
+// Set NODE_ENV to test for React development mode
+process.env.NODE_ENV = 'test'
 
 // Mock environment variables
 process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://test.supabase.co'
