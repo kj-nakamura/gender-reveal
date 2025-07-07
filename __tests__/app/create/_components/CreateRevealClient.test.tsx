@@ -33,9 +33,9 @@ describe('CreateRevealClient', () => {
     expect(screen.getByText('テンプレートを差し替え')).toBeInTheDocument()
   })
 
-  it('should show warning message in replacement mode', () => {
+  it('should show info message in replacement mode', () => {
     render(<CreateRevealClient existingReveal={mockExistingReveal} />)
-    expect(screen.getByText(/新しいテンプレートを選ぶと、新しいURLが発行され/)).toBeInTheDocument()
+    expect(screen.getByText(/テンプレートを差し替えても、共有URLは変わりません/)).toBeInTheDocument()
   })
 
   it('should show current reveal information in replacement mode', () => {

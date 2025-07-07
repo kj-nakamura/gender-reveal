@@ -39,8 +39,8 @@ export const createReveal = async (templateId: string, gender: 'boy' | 'girl') =
     return redirect('/?message=error-creating-reveal')
   }
 
-  // 成功したら、作成されたリビールページにリダイレクト
-  redirect(`/reveal/${slug}`)
+  // 成功したら、マイページにリダイレクト
+  redirect('/mypage?message=reveal-created')
 }
 
 // リビールを削除する関数
@@ -70,7 +70,7 @@ export const deleteReveal = async (revealId: string) => {
   redirect('/mypage')
 }
 
-// リビールを差し替える関数（新しいURLを発行）
+// リビールを差し替える関数（既存のURLを保持）
 export const replaceReveal = async (templateId: string, gender: 'boy' | 'girl') => {
   const supabase = await createClient()
 
@@ -81,30 +81,29 @@ export const replaceReveal = async (templateId: string, gender: 'boy' | 'girl') 
     return redirect('/login')
   }
 
-  // 2. 既存のリビールを削除
-  const { error: deleteError } = await supabase
+  // 2. 既存のリビールを取得して既存のslugを保持
+  const { data: existingReveal, error: fetchError } = await supabase
     .from('reveals')
-    .delete()
+    .select('share_slug')
     .eq('user_id', user.id)
+    .single()
 
-  if (deleteError) {
-    console.error('Error deleting existing reveal:', deleteError)
+  if (fetchError || !existingReveal) {
+    console.error('Error fetching existing reveal:', fetchError)
     return redirect('/mypage?message=error-replacing-reveal')
   }
 
-  // 3. 新しい共有用のユニークな文字列を生成
-  const slug = generateSlug()
+  // 3. 既存のリビールを更新（URLは変更しない）
+  const { error: updateError } = await supabase
+    .from('reveals')
+    .update({
+      template_id: templateId,
+      gender: gender,
+    })
+    .eq('user_id', user.id)
 
-  // 4. 新しいリビールを作成
-  const { error: insertError } = await supabase.from('reveals').insert({
-    user_id: user.id,
-    template_id: templateId,
-    gender: gender,
-    share_slug: slug,
-  })
-
-  if (insertError) {
-    console.error('Error creating new reveal:', insertError)
+  if (updateError) {
+    console.error('Error updating reveal:', updateError)
     return redirect('/mypage?message=error-replacing-reveal')
   }
 

@@ -142,7 +142,7 @@ describe('CommonHeader', () => {
     const { container } = render(<CommonHeader />)
     
     await waitFor(() => {
-      const avatar = container.querySelector('.w-10.h-10')
+      const avatar = container.querySelector('[class*="w-8"][class*="h-8"]')
       expect(avatar).toBeInTheDocument()
       expect(avatar?.className).toMatch(/bg-\w+-500/)
     })
