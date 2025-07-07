@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import CommonHeader from "./CommonHeader";
 import CommonFooter from "./CommonFooter";
-import { siteConfig } from "@/config/site";
 
 export default function TopPage() {
   const [user, setUser] = useState<User | null>(null);
