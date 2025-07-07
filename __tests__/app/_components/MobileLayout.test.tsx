@@ -31,9 +31,14 @@ describe('MobileLayout', () => {
     )
     
     const outerContainer = container.firstChild
-    expect(outerContainer).toHaveClass('flex', 'justify-center', 'items-center', 'min-h-screen')
+    expect(outerContainer).toHaveClass('flex')
+    expect(outerContainer).toHaveClass('justify-center')
+    expect(outerContainer).toHaveClass('items-center')
+    expect(outerContainer).toHaveClass('min-h-screen')
     
     const innerContainer = container.querySelector('.w-full.max-w-sm')
-    expect(innerContainer).toHaveClass('bg-white', 'rounded-lg', 'shadow-lg')
+    expect(innerContainer).toHaveClass('bg-white')
+    expect(innerContainer).toHaveClass('rounded-lg')
+    expect(innerContainer).toHaveClass('shadow-lg')
   })
 })

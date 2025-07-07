@@ -145,7 +145,8 @@ describe('TemplateA', () => {
     fireEvent.click(button)
     
     const resultText = screen.getByText('Boy! ♂')
-    expect(resultText).toHaveClass('result-text-a', 'boy')
+    expect(resultText).toHaveClass('result-text-a')
+    expect(resultText).toHaveClass('boy')
   })
 
   it('should handle unknown gender gracefully', () => {

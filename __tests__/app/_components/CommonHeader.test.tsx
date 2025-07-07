@@ -49,7 +49,9 @@ describe('CommonHeader', () => {
     mockGetUser.mockResolvedValue({ data: { user: null } })
     const { container } = render(<CommonHeader />)
     const header = container.querySelector('header')
-    expect(header).toHaveClass('bg-white/80', 'backdrop-blur-sm', 'shadow-sm')
+    expect(header).toHaveClass('bg-white/80')
+    expect(header).toHaveClass('backdrop-blur-sm')
+    expect(header).toHaveClass('shadow-sm')
   })
 
   it('should hide auth button when showAuthButton is false', () => {

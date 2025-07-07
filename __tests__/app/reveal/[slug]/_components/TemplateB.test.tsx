@@ -62,7 +62,8 @@ describe('TemplateB', () => {
     fireEvent.click(button)
     
     const resultText = screen.getByText('Boy! ♂')
-    expect(resultText).toHaveClass('result-text', 'boy')
+    expect(resultText).toHaveClass('result-text')
+    expect(resultText).toHaveClass('boy')
   })
 
   it('should apply correct CSS classes for girl result', () => {
@@ -72,7 +73,8 @@ describe('TemplateB', () => {
     fireEvent.click(button)
     
     const resultText = screen.getByText('Girl! ♀')
-    expect(resultText).toHaveClass('result-text', 'girl')
+    expect(resultText).toHaveClass('result-text')
+    expect(resultText).toHaveClass('girl')
   })
 
   it('should show balloon animation after revealing', () => {
