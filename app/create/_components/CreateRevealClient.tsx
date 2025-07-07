@@ -22,8 +22,8 @@ export default function CreateRevealClient({ existingReveal }: Props) {
         <div className="mb-8">
           <h1>{existingReveal ? "テンプレートを差し替え" : "デザインを選んで作成"}</h1>
           {existingReveal && (
-            <p className="text-orange-600 font-medium mt-2">
-              ⚠️ 新しいテンプレートを選ぶと、新しいURLが発行され、既存のURLは無効になります
+            <p className="text-blue-600 font-medium mt-2">
+              ℹ️ テンプレートを差し替えても、共有URLは変わりません
             </p>
           )}
         </div>
