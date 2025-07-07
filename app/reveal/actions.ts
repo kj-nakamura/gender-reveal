@@ -39,8 +39,8 @@ export const createReveal = async (templateId: string, gender: 'boy' | 'girl') =
     return redirect('/?message=error-creating-reveal')
   }
 
-  // 成功したら、作成されたリビールページにリダイレクト
-  redirect(`/reveal/${slug}`)
+  // 成功したら、マイページにリダイレクト
+  redirect('/mypage?message=reveal-created')
 }
 
 // リビールを削除する関数
