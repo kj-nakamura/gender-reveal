@@ -57,10 +57,6 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
   const { slug } = await params;
   const supabase = await createClient();
 
-  // ユーザー認証チェック（ヘッダー表示判定用）
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   // URLのslugを使って、データベースから該当するデータを取得（認証不要）
   const { data: reveal, error } = await supabase
@@ -75,16 +71,14 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
     notFound();
   }
 
-  // ログインユーザーが作成者かどうか判定
-  const isOwner = user && reveal.user_id === user.id;
 
   // template_idに応じて、表示するコンポーネントを切り替える
   const renderTemplate = () => {
     switch (reveal.template_id) {
       case "template_A":
-        return <TemplateA gender={reveal.gender} isOwner={isOwner} />;
+        return <TemplateA gender={reveal.gender} />;
       case "template_B":
-        return <TemplateB gender={reveal.gender} isOwner={isOwner} />;
+        return <TemplateB gender={reveal.gender} />;
       default:
         // 該当テンプレートがなければ404
         notFound();

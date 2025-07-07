@@ -53,9 +53,9 @@ export default function CreateRevealButton({ templateId, gender }: Props) {
     setIsLoading(true);
     try {
       if (existingReveal) {
-        await replaceReveal(templateId, gender);
+        await replaceReveal(templateId, gender as "boy" | "girl");
       } else {
-        await createReveal(templateId, gender);
+        await createReveal(templateId, gender as "boy" | "girl");
       }
     } catch (error) {
       console.error('Error creating/replacing reveal:', error);
