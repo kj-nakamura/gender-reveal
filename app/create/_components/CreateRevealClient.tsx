@@ -2,6 +2,7 @@
 "use client";
 
 import CommonHeader from "@/app/_components/CommonHeader";
+import CommonFooter from "@/app/_components/CommonFooter";
 import Link from "next/link";
 import "../page.css";
 
@@ -16,9 +17,9 @@ type Props = {
 
 export default function CreateRevealClient({ existingReveal }: Props) {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <CommonHeader />
-      <main className="create-page-container">
+      <main className="create-page-container flex-grow">
         <div className="mb-8">
           <h1>{existingReveal ? "テンプレートを差し替え" : "デザインを選んで作成"}</h1>
           {existingReveal && (
@@ -91,6 +92,7 @@ export default function CreateRevealClient({ existingReveal }: Props) {
           </div>
         </div>
       </main>
+      <CommonFooter />
     </div>
   );
 }

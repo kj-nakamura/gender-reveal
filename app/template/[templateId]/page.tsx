@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import TemplateA from "@/app/reveal/[slug]/_components/TemplateA";
 import TemplateB from "@/app/reveal/[slug]/_components/TemplateB";
 import CommonHeader from "@/app/_components/CommonHeader";
+import CommonFooter from "@/app/_components/CommonFooter";
 import CreateRevealButton from "./_components/CreateRevealButton";
 
 export default async function TemplatePage({ 
@@ -84,9 +85,12 @@ export default async function TemplatePage({
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <CommonHeader />
-      {renderTemplate()}
+      <div className="flex-grow">
+        {renderTemplate()}
+      </div>
+      <CommonFooter />
     </div>
   );
 }

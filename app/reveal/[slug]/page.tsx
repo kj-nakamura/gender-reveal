@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import TemplateA from "./_components/TemplateA";
 import TemplateB from "./_components/TemplateB";
+import CommonFooter from "@/app/_components/CommonFooter";
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
@@ -86,8 +87,11 @@ export default async function RevealPage({ params }: { params: Promise<{ slug: s
   };
 
   return (
-    <div>
-      {renderTemplate()}
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow">
+        {renderTemplate()}
+      </div>
+      <CommonFooter />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import CommonHeader from "./CommonHeader";
+import CommonFooter from "./CommonFooter";
 import { siteConfig } from "@/config/site";
 
 export default function TopPage() {
@@ -178,12 +179,7 @@ export default function TopPage() {
         </div>
       </main>
 
-      {/* フッター */}
-      <footer className="bg-gray-100 py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-gray-600">
-          <p>&copy; 2025 {siteConfig.name}. All rights reserved.</p>
-        </div>
-      </footer>
+      <CommonFooter />
     </div>
   );
 }

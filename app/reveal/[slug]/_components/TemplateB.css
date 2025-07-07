@@ -12,21 +12,21 @@
   position: relative;
   padding: 1rem;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
 }
 
 /* Gender-specific backgrounds for revealed state */
 .template-b-container.boy-revealed {
-  background: linear-gradient(135deg, #89CFF0 0%, #4A90E2 50%, #2E86C1 100%);
+  background: white;
 }
 
 .template-b-container.girl-revealed {
-  background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #E91E63 100%);
+  background: white;
 }
 
 /* Countdown background */
 .template-b-container.countdown {
-  background: linear-gradient(135deg, #FFF8DC 0%, #F0E68C 50%, #DAA520 100%);
+  background: white;
 }
 
 .initial-view h2 {

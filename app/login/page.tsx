@@ -5,6 +5,7 @@ import { sendOTPCode, login, signup, signInWithGoogle } from "./actions";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useState, useEffect } from "react";
 import CommonHeader from "@/app/_components/CommonHeader";
+import CommonFooter from "@/app/_components/CommonFooter";
 
 function LoginForm() {
   const searchParams = useSearchParams();
@@ -138,9 +139,9 @@ function LoginForm() {
   const displayMessageType = message ? messageType : (urlMessage ? urlMessage.type : 'error');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 flex flex-col">
       <CommonHeader showAuthButton={false} />
-      <div className="flex items-center justify-center p-8 pt-24">
+      <div className="flex items-center justify-center p-8 pt-24 flex-grow">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
             ログイン
@@ -311,6 +312,7 @@ function LoginForm() {
           </div>
         </div>
       </div>
+      <CommonFooter />
     </div>
   );
 }
