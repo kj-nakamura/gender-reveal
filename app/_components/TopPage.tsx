@@ -42,7 +42,7 @@ export default function TopPage() {
     if (user) {
       router.push("/mypage");
     } else {
-      router.push("/login");
+      router.push("/create");
     }
   };
 
@@ -67,8 +67,10 @@ export default function TopPage() {
               <br />
               家族や友人に共有できるサービスです
             </p>
-            <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold">
-              今すぐ始める
+            <button 
+              onClick={() => router.push("/create")}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold">
+              サンプルを見てみる
             </button>
           </div>
         </main>
@@ -108,7 +110,7 @@ export default function TopPage() {
             onClick={handleGetStarted}
             className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold"
           >
-            {user ? "マイページへ" : "今すぐ始める"}
+            {user ? "マイページへ" : "サンプルを見てみる"}
           </button>
         </div>
 
@@ -171,7 +173,7 @@ export default function TopPage() {
             onClick={handleGetStarted}
             className="bg-white text-purple-600 text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-bold zen-maru-gothic"
           >
-            {user ? "マイページへ" : "無料で始める"}
+            {user ? "マイページへ" : "サンプルを見てみる"}
           </button>
         </div>
       </main>
