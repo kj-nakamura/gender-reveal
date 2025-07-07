@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import TemplateA from "@/app/reveal/[slug]/_components/TemplateA";
 import TemplateB from "@/app/reveal/[slug]/_components/TemplateB";
 import CommonHeader from "@/app/_components/CommonHeader";
+import CreateRevealButton from "./_components/CreateRevealButton";
 
 export default async function TemplatePage({ 
   params, 
@@ -28,6 +29,9 @@ export default async function TemplatePage({
           return (
             <div className={`text-center py-8 ${bgColor}`}>
               <h2 className={`text-2xl font-bold zen-maru-gothic mb-4 ${textColor}`}>{emoji} {title}</h2>
+              <div className="mb-6">
+                <CreateRevealButton templateId="template_A" gender={sampleGender} />
+              </div>
               <TemplateA gender={sampleGender} />
             </div>
           );
@@ -35,6 +39,9 @@ export default async function TemplatePage({
           return (
             <div className={`text-center py-8 ${bgColor}`}>
               <h2 className={`text-2xl font-bold zen-maru-gothic mb-4 ${textColor}`}>{emoji} {title}</h2>
+              <div className="mb-6">
+                <CreateRevealButton templateId="template_B" gender={sampleGender} />
+              </div>
               <TemplateB gender={sampleGender} />
             </div>
           );
