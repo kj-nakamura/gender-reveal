@@ -48,8 +48,8 @@ export async function updateSession(request: NextRequest) {
   // トップページ(/)は除外
   if (
     !user &&
-    request.nextUrl.pathname.startsWith('/mypage') ||
-    (request.nextUrl.pathname.startsWith('/family-tree') && !request.nextUrl.pathname.startsWith('/family-tree/demo'))
+    (request.nextUrl.pathname.startsWith('/mypage') ||
+    (request.nextUrl.pathname.startsWith('/family-tree') && !request.nextUrl.pathname.startsWith('/family-tree/demo')))
   ) {
     // no user, redirect to login page for protected routes only
     const url = request.nextUrl.clone()
