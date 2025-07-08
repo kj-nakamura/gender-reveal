@@ -40,7 +40,8 @@ export async function updateSession(request: NextRequest) {
   // ログイン必須のページのみリダイレクト（ホワイトリスト方式）
   if (
     !user &&
-    (request.nextUrl.pathname.startsWith('/mypage'))
+    (request.nextUrl.pathname.startsWith('/mypage') ||
+     request.nextUrl.pathname.startsWith('/family-tree'))
   ) {
     // no user, redirect to login page for protected routes only
     const url = request.nextUrl.clone()
