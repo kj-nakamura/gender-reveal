@@ -43,10 +43,19 @@ function PersonNode({ data, selected }: { data: PersonNodeData; selected?: boole
     }
   };
 
-  const formatDate = (dateString: string | null) => {
+  const calculateAge = (dateString: string | null) => {
     if (!dateString) return '';
-    const date = new Date(dateString);
-    return date.getFullYear().toString();
+    const birthDate = new Date(dateString);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    // 誕生日がまだ来ていない場合は年齢を-1
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age >= 0 ? `${age}歳` : '';
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -182,7 +191,7 @@ function PersonNode({ data, selected }: { data: PersonNodeData; selected?: boole
             className="text-xs text-gray-600 cursor-pointer"
             onDoubleClick={(e) => handleDoubleClick(e, 'date_of_birth')}
           >
-            {data.date_of_birth ? formatDate(data.date_of_birth) : '生年月日を追加'}
+            {data.date_of_birth ? calculateAge(data.date_of_birth) : '年齢情報なし'}
           </div>
         )}
         

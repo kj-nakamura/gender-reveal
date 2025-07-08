@@ -25,10 +25,16 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
   const { data: tree } = await supabase.from("family_trees").select("name").eq("id", id).single();
 
   // その家系図に属する人物を取得
-  const { data: persons } = await supabase.from("persons").select("id, tree_id, name, gender, date_of_birth, father_id, mother_id").eq("tree_id", id);
+  const { data: persons } = await supabase
+    .from("persons")
+    .select("id, tree_id, name, gender, date_of_birth, father_id, mother_id")
+    .eq("tree_id", id);
 
   // その家系図に属する婚姻関係を取得
-  const { data: marriages } = await supabase.from("marriages").select("id, tree_id, partner1_id, partner2_id, start_date").eq("tree_id", id);
+  const { data: marriages } = await supabase
+    .from("marriages")
+    .select("id, tree_id, partner1_id, partner2_id, start_date")
+    .eq("tree_id", id);
 
   // 家系図の所有者でない場合はアクセス拒否
   if (!tree) {
@@ -48,17 +54,12 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
           <FamilyTreeVisualization persons={persons || []} marriages={marriages || []} />
         </div>
 
-        <div className="mb-8">
-          <ExportControls treeName={tree.name} />
-        </div>
-
         <div>
-          <TabNavigation 
-            treeId={id} 
-            persons={persons || []} 
-            marriages={marriages || []} 
-          />
+          <TabNavigation treeId={id} persons={persons || []} marriages={marriages || []} />
         </div>
+        {/* <div className="mb-8">
+          <ExportControls treeName={tree.name} />
+        </div> */}
       </main>
       <CommonFooter />
     </div>
