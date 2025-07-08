@@ -177,7 +177,7 @@ export function convertToFamilyTreeData(
         strokeWidth: 3,
         strokeDasharray: '10,5'
       },
-      label: '❤️',
+      label: '🎂',
       labelStyle: { fontSize: '20px' },
     });
   });
