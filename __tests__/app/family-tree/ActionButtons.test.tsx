@@ -139,7 +139,7 @@ describe('ActionButtons', () => {
     
     render(<ActionButtons {...propsWithOnePerson} />);
     
-    const addMarriageButton = screen.getByText('婚姻を追加');
+    const addMarriageButton = screen.getByText('婚姻を追加').closest('button');
     expect(addMarriageButton).toBeDisabled();
   });
 
@@ -163,7 +163,7 @@ describe('ActionButtons', () => {
   test('人物が2人以上の場合、婚姻追加ボタンが有効', () => {
     render(<ActionButtons {...mockProps} />);
     
-    const addMarriageButton = screen.getByText('婚姻を追加');
+    const addMarriageButton = screen.getByText('婚姻を追加').closest('button');
     expect(addMarriageButton).not.toBeDisabled();
   });
 
@@ -191,7 +191,7 @@ describe('ActionButtons', () => {
     
     render(<ActionButtons {...propsWithNoPersons} />);
     
-    const addPersonButton = screen.getByText('人物を追加');
+    const addPersonButton = screen.getByText('人物を追加').closest('button');
     expect(addPersonButton).not.toBeDisabled();
   });
 
