@@ -17,6 +17,7 @@ import '@xyflow/react/dist/style.css';
 
 import PersonNode, { PersonData } from './PersonNode';
 import { convertToFamilyTreeData } from './familyTreeUtils';
+import PersonEditModal from './PersonEditModal';
 
 interface Person {
   id: string;
@@ -48,14 +49,36 @@ function FamilyTreeVisualization({
   marriages 
 }: FamilyTreeVisualizationProps) {
   const [selectedPerson, setSelectedPerson] = useState<PersonData | null>(null);
+  const [editingPerson, setEditingPerson] = useState<Person | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handlePersonClick = useCallback((person: PersonData) => {
+    // 詳細パネルとモーダルの両方を表示
     setSelectedPerson(person);
+    
+    // モーダル用のPersonオブジェクトを作成
+    const fullPerson: Person = {
+      id: person.id,
+      name: person.name,
+      gender: person.gender,
+      date_of_birth: person.date_of_birth,
+      father_id: person.father_id,
+      mother_id: person.mother_id,
+    };
+    
+    setEditingPerson(fullPerson);
+    setIsModalOpen(true);
+  }, []);
+
+  const handlePersonUpdate = useCallback((personId: string, updates: Partial<PersonData>) => {
+    // React Flowのノードデータを更新
+    // ここではページリフレッシュに依存するため、特に何もしない
+    console.log('Person updated:', personId, updates);
   }, []);
 
   const { nodes: initialNodes, edges: initialEdges } = useMemo(
-    () => convertToFamilyTreeData(persons, marriages, handlePersonClick),
-    [persons, marriages, handlePersonClick]
+    () => convertToFamilyTreeData(persons, marriages, handlePersonClick, handlePersonUpdate),
+    [persons, marriages, handlePersonClick, handlePersonUpdate]
   );
 
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
@@ -67,6 +90,20 @@ function FamilyTreeVisualization({
   );
 
   const handleClosePersonDetails = () => {
+    setSelectedPerson(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingPerson(null);
+    // 詳細パネルも閉じる
+    setSelectedPerson(null);
+  };
+
+  const handleModalUpdate = () => {
+    // モーダルでの更新後の処理
+    setIsModalOpen(false);
+    setEditingPerson(null);
     setSelectedPerson(null);
   };
 
@@ -178,6 +215,15 @@ function FamilyTreeVisualization({
           </div>
         </div>
       )}
+
+      {/* 編集モーダル */}
+      <PersonEditModal
+        person={editingPerson}
+        existingPersons={persons}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onUpdate={handleModalUpdate}
+      />
     </div>
   );
 }

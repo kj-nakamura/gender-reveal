@@ -105,7 +105,8 @@ function calculateNodePositions(persons: Person[], levels: Map<string, number>):
 export function convertToFamilyTreeData(
   persons: Person[], 
   marriages: Marriage[],
-  onPersonClick?: (person: PersonData) => void
+  onPersonClick?: (person: PersonData) => void,
+  onPersonUpdate?: (personId: string, updates: Partial<PersonData>) => void
 ): FamilyTreeData {
   // 世代レベルを計算
   const levels = calculateGenerationLevels(persons);
@@ -123,7 +124,8 @@ export function convertToFamilyTreeData(
       position,
       data: {
         ...person,
-        onClick: onPersonClick
+        onClick: onPersonClick,
+        onUpdate: onPersonUpdate
       },
     };
   });
