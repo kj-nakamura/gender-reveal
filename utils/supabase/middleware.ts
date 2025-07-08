@@ -37,19 +37,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // ログイン必須のページのみリダイレクト（ホワイトリスト方式）
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    !request.nextUrl.pathname.startsWith('/verify-otp') &&
-    !request.nextUrl.pathname.startsWith('/forgot-password') &&
-    !request.nextUrl.pathname.startsWith('/reset-password') &&
-    !request.nextUrl.pathname.startsWith('/reveal/') &&
-    !request.nextUrl.pathname.startsWith('/create') &&
-    !request.nextUrl.pathname.startsWith('/template') &&
-    request.nextUrl.pathname !== '/'
+    (request.nextUrl.pathname.startsWith('/mypage') ||
+     request.nextUrl.pathname.startsWith('/family-tree'))
   ) {
-    // no user, potentially respond by redirecting the user to the login page
+    // no user, redirect to login page for protected routes only
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
