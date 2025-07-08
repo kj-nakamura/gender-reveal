@@ -15,7 +15,6 @@ interface Marriage {
   partner1_id: string;
   partner2_id: string;
   start_date: string | null;
-  end_date: string | null;
 }
 
 interface MarriageListProps {
@@ -82,10 +81,7 @@ export default function MarriageList({ marriages, persons }: MarriageListProps) 
                   {marriage.start_date && (
                     <div>結婚日: {marriage.start_date}</div>
                   )}
-                  {marriage.end_date && (
-                    <div>離婚日: {marriage.end_date}</div>
-                  )}
-                  {!marriage.start_date && !marriage.end_date && (
+                  {!marriage.start_date && (
                     <div className="text-gray-500">日付情報なし</div>
                   )}
                 </div>

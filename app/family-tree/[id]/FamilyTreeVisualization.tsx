@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, memo } from 'react';
 import {
   ReactFlow,
   Controls,
@@ -23,7 +23,6 @@ interface Person {
   name: string;
   gender: 'male' | 'female' | 'other';
   date_of_birth: string | null;
-  date_of_death: string | null;
   father_id: string | null;
   mother_id: string | null;
 }
@@ -33,7 +32,6 @@ interface Marriage {
   partner1_id: string;
   partner2_id: string;
   start_date: string | null;
-  end_date: string | null;
 }
 
 interface FamilyTreeVisualizationProps {
@@ -45,7 +43,7 @@ const nodeTypes: NodeTypes = {
   person: PersonNode,
 };
 
-export default function FamilyTreeVisualization({ 
+function FamilyTreeVisualization({ 
   persons, 
   marriages 
 }: FamilyTreeVisualizationProps) {
@@ -74,10 +72,10 @@ export default function FamilyTreeVisualization({
 
   if (persons.length === 0) {
     return (
-      <div className="h-96 flex items-center justify-center bg-gray-50 rounded-lg border">
-        <div className="text-center">
-          <p className="text-gray-600 mb-2">家系図を表示するには人物を追加してください</p>
-          <p className="text-sm text-gray-500">上のフォームから家族の情報を入力してみましょう</p>
+      <div className="h-64 md:h-96 flex items-center justify-center bg-gray-50 rounded-lg border">
+        <div className="text-center px-4">
+          <p className="text-gray-600 mb-2 text-sm md:text-base">家系図を表示するには人物を追加してください</p>
+          <p className="text-xs md:text-sm text-gray-500">タブから家族の情報を入力してみましょう</p>
         </div>
       </div>
     );
@@ -85,7 +83,7 @@ export default function FamilyTreeVisualization({
 
   return (
     <div className="relative">
-      <div className="h-96 bg-gray-50 rounded-lg border overflow-hidden">
+      <div className="h-64 md:h-96 lg:h-[500px] bg-gray-50 rounded-lg border overflow-hidden">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -106,7 +104,7 @@ export default function FamilyTreeVisualization({
           <Background variant={BackgroundVariant.Dots} gap={20} size={1} />
           <Controls />
           
-          <Panel position="top-left" className="bg-white p-2 rounded shadow">
+          <Panel position="top-left" className="bg-white p-2 rounded shadow hidden md:block">
             <div className="text-xs space-y-1">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-0.5 bg-green-400"></div>
@@ -123,7 +121,7 @@ export default function FamilyTreeVisualization({
             </div>
           </Panel>
 
-          <Panel position="top-right" className="bg-white p-2 rounded shadow">
+          <Panel position="top-right" className="bg-white p-2 rounded shadow hidden lg:block">
             <div className="text-xs text-gray-600">
               <p>💡 ノードをドラッグして移動</p>
               <p>🔍 マウスホイールでズーム</p>
@@ -160,11 +158,6 @@ export default function FamilyTreeVisualization({
                 <span className="font-medium">生年月日:</span> {selectedPerson.date_of_birth}
               </div>
             )}
-            {selectedPerson.date_of_death && (
-              <div>
-                <span className="font-medium">没年月日:</span> {selectedPerson.date_of_death}
-              </div>
-            )}
             {(selectedPerson.father_id || selectedPerson.mother_id) && (
               <div className="col-span-2">
                 <span className="font-medium">家族関係:</span>
@@ -188,3 +181,5 @@ export default function FamilyTreeVisualization({
     </div>
   );
 }
+
+export default memo(FamilyTreeVisualization);

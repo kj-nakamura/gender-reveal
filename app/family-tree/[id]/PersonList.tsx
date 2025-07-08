@@ -10,7 +10,6 @@ interface Person {
   name: string;
   gender: 'male' | 'female' | 'other';
   date_of_birth: string | null;
-  date_of_death: string | null;
   father_id: string | null;
   mother_id: string | null;
 }
@@ -106,9 +105,6 @@ export default function PersonList({ persons }: PersonListProps) {
                 <div>性別: {getGenderText(person.gender)}</div>
                 {person.date_of_birth && (
                   <div>生年月日: {person.date_of_birth}</div>
-                )}
-                {person.date_of_death && (
-                  <div>没年月日: {person.date_of_death}</div>
                 )}
                 {(person.father_id || person.mother_id) && (
                   <div className="mt-2">

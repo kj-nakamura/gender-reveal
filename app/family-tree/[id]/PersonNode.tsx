@@ -8,7 +8,6 @@ export interface PersonData {
   name: string;
   gender: 'male' | 'female' | 'other';
   date_of_birth: string | null;
-  date_of_death: string | null;
   father_id: string | null;
   mother_id: string | null;
 }
@@ -73,7 +72,6 @@ function PersonNode({ data, selected }: { data: PersonNodeData; selected?: boole
         {data.date_of_birth && (
           <div className="text-xs text-gray-600">
             {formatDate(data.date_of_birth)}
-            {data.date_of_death && ` - ${formatDate(data.date_of_death)}`}
           </div>
         )}
       </div>

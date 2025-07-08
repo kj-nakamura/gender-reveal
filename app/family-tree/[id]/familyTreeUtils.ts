@@ -6,7 +6,6 @@ interface Person {
   name: string;
   gender: 'male' | 'female' | 'other';
   date_of_birth: string | null;
-  date_of_death: string | null;
   father_id: string | null;
   mother_id: string | null;
 }
@@ -16,7 +15,6 @@ interface Marriage {
   partner1_id: string;
   partner2_id: string;
   start_date: string | null;
-  end_date: string | null;
 }
 
 export interface FamilyTreeData {
