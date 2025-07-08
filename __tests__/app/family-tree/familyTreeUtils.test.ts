@@ -109,8 +109,10 @@ describe('familyTreeUtils', () => {
       expect(fatherChildEdge?.source).toBe('3');
       expect(fatherChildEdge?.target).toBe('5');
       expect(fatherChildEdge?.style?.stroke).toBe('#4ade80');
-      expect(fatherChildEdge?.markerEnd?.type).toBe(MarkerType.ArrowClosed);
-      expect(fatherChildEdge?.markerEnd?.color).toBe('#4ade80');
+      expect(fatherChildEdge?.markerEnd).toEqual({
+        type: MarkerType.ArrowClosed,
+        color: '#4ade80',
+      });
       
       // 母親から子供へのエッジ（赤色）
       const motherChildEdge = result.edges.find(e => e.id === '4-5');
@@ -118,8 +120,10 @@ describe('familyTreeUtils', () => {
       expect(motherChildEdge?.source).toBe('4');
       expect(motherChildEdge?.target).toBe('5');
       expect(motherChildEdge?.style?.stroke).toBe('#f87171');
-      expect(motherChildEdge?.markerEnd?.type).toBe(MarkerType.ArrowClosed);
-      expect(motherChildEdge?.markerEnd?.color).toBe('#f87171');
+      expect(motherChildEdge?.markerEnd).toEqual({
+        type: MarkerType.ArrowClosed,
+        color: '#f87171',
+      });
     });
 
     test('婚姻関係のエッジが正しく生成される', () => {
