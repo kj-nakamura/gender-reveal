@@ -7,6 +7,7 @@ import AddPersonForm from "./AddPersonForm";
 import PersonList from "./PersonList";
 import AddMarriageForm from "./AddMarriageForm";
 import MarriageList from "./MarriageList";
+import FamilyTreeVisualization from "./FamilyTreeVisualization";
 
 export default async function TreeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -42,6 +43,11 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="mb-6">
           <h1 className="text-3xl font-bold">{tree.name}</h1>
+        </div>
+
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">家系図</h2>
+          <FamilyTreeVisualization persons={persons || []} marriages={marriages || []} />
         </div>
 
         <div className="mb-8">

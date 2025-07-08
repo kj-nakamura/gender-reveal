@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 3001",
-    "build": "next build",
+    "dev": "NODE_ENV=development next dev --turbopack -p 3001",
+    "dev:fast": "NODE_ENV=development NEXT_SKIP_TYPE_CHECK=true next dev --turbopack -p 3001",
+    "dev:clean": "rm -rf .next && NODE_ENV=development next dev --turbopack -p 3001",
+    "build": "NODE_ENV=production next build",
+    "build:dev": "NODE_ENV=development next build",
+    "clean": "rm -rf .next out node_modules/.cache",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -20,6 +24,7 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.50.3",
+    "@xyflow/react": "^12.8.1",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
