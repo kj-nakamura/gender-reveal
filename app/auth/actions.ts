@@ -14,13 +14,13 @@ export async function logout() {
       console.error("Logout error:", error);
       return { success: false, error: "ログアウトに失敗しました" };
     }
-
-    // ログアウト成功後はログインページにリダイレクト
-    redirect('/login');
   } catch (error) {
     console.error("Unexpected logout error:", error);
     return { success: false, error: "予期しないエラーが発生しました" };
   }
+
+  // ログアウト成功後はトップページにリダイレクト
+  redirect('/');
 }
 
 export async function deleteUser() {

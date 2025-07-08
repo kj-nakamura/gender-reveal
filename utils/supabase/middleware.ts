@@ -37,11 +37,19 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // ログイン済みユーザーがログインページにアクセスした場合はmypageにリダイレクト
+  if (user && request.nextUrl.pathname === '/login') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/mypage'
+    return NextResponse.redirect(url)
+  }
+
   // ログイン必須のページのみリダイレクト（ホワイトリスト方式）
+  // トップページ(/)は除外
   if (
     !user &&
-    (request.nextUrl.pathname.startsWith('/mypage') ||
-     request.nextUrl.pathname.startsWith('/family-tree'))
+    request.nextUrl.pathname.startsWith('/mypage') ||
+    (request.nextUrl.pathname.startsWith('/family-tree') && !request.nextUrl.pathname.startsWith('/family-tree/demo'))
   ) {
     // no user, redirect to login page for protected routes only
     const url = request.nextUrl.clone()

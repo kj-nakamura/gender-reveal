@@ -28,7 +28,7 @@ export default async function FamilyTreePage() {
     const { data: newTree, error: createError } = await supabase
       .from("family_trees")
       .insert({
-        name: `${user.email?.split('@')[0] || 'ユーザー'}の家系図`,
+        name: `${user.email?.split("@")[0] || "ユーザー"}の家系図`,
         owner_id: user.id,
       })
       .select()
@@ -64,10 +64,6 @@ export default async function FamilyTreePage() {
     <div className="min-h-screen flex flex-col">
       <CommonHeader />
       <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">{existingTree.name}</h1>
-        </div>
-
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">家系図</h2>
           <FamilyTreeVisualization persons={persons || []} marriages={marriages || []} treeId={existingTree.id} />
