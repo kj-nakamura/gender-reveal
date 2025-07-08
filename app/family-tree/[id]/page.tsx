@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import CommonHeader from "@/app/_components/CommonHeader";
 import CommonFooter from "@/app/_components/CommonFooter";
 import AddPersonForm from "./AddPersonForm";
+import PersonList from "./PersonList";
+import AddMarriageForm from "./AddMarriageForm";
+import MarriageList from "./MarriageList";
 
 export default async function TreeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -25,6 +28,9 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
   // その家系図に属する人物を取得
   const { data: persons } = await supabase.from("persons").select("*").eq("tree_id", id);
 
+  // その家系図に属する婚姻関係を取得
+  const { data: marriages } = await supabase.from("marriages").select("*").eq("tree_id", id);
+
   // 家系図の所有者でない場合はアクセス拒否
   if (!tree) {
     redirect("/family-tree");
@@ -40,27 +46,22 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
 
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">人物を追加</h2>
-          <AddPersonForm treeId={id} />
+          <AddPersonForm treeId={id} existingPersons={persons || []} />
+        </div>
+
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">婚姻関係を追加</h2>
+          <AddMarriageForm treeId={id} existingPersons={persons || []} />
+        </div>
+
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">登録されている人物</h2>
+          <PersonList persons={persons || []} />
         </div>
 
         <div>
-          <h2 className="text-xl font-semibold mb-4">登録されている人物</h2>
-          {persons && persons.length > 0 ? (
-            <ul className="space-y-3">
-              {persons.map((person) => (
-                <li key={person.id} className="p-4 border rounded-lg">
-                  <div className="font-semibold">{person.name}</div>
-                  <div className="text-sm text-gray-600">
-                    性別: {person.gender === 'male' ? '男性' : person.gender === 'female' ? '女性' : 'その他'}
-                    {person.date_of_birth && ` | 生年月日: ${person.date_of_birth}`}
-                    {person.date_of_death && ` | 没年月日: ${person.date_of_death}`}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600">まだ人物が登録されていません。上のフォームから追加してください。</p>
-          )}
+          <h2 className="text-xl font-semibold mb-4">婚姻関係</h2>
+          <MarriageList marriages={marriages || []} persons={persons || []} />
         </div>
       </main>
       <CommonFooter />
