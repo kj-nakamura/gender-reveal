@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import CommonHeader from "./CommonHeader";
 import CommonFooter from "./CommonFooter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGift, faMobile, faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function TopPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -67,9 +69,10 @@ export default function TopPage() {
               <br />
               家族や友人に共有できるサービスです
             </p>
-            <button 
+            <button
               onClick={() => router.push("/create")}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold">
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 zen-maru-gothic font-bold"
+            >
               サンプルを見てみる
             </button>
           </div>
@@ -117,19 +120,25 @@ export default function TopPage() {
         {/* 特徴セクション */}
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="text-5xl mb-4">🎀</div>
+            <div className="text-5xl mb-4 text-pink-500">
+              <FontAwesomeIcon icon={faGift} />
+            </div>
             <h3 className="text-xl font-bold text-gray-800 mb-4 zen-maru-gothic">可愛いデザイン</h3>
             <p className="text-gray-600">シンプルからバルーンまで、複数のテンプレートから選べます</p>
           </div>
 
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="text-5xl mb-4">📱</div>
+            <div className="text-5xl mb-4 text-blue-500">
+              <FontAwesomeIcon icon={faMobile} />
+            </div>
             <h3 className="text-xl font-bold text-gray-800 mb-4 zen-maru-gothic">簡単シェア</h3>
             <p className="text-gray-600">作成したカードはURLで簡単にシェア。SNSでも共有できます</p>
           </div>
 
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-            <div className="text-5xl mb-4">✨</div>
+            <div className="text-5xl mb-4 text-purple-500">
+              <FontAwesomeIcon icon={faStar} />
+            </div>
             <h3 className="text-xl font-bold text-gray-800 mb-4 zen-maru-gothic">特別な演出</h3>
             <p className="text-gray-600">アニメーションで盛り上がる、忘れられない発表の瞬間を</p>
           </div>
@@ -166,7 +175,7 @@ export default function TopPage() {
         </div>
 
         {/* CTAセクション */}
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl p-12 text-center text-white">
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl p-12 text-center text-white mb-12">
           <h3 className="text-3xl font-bold mb-4 zen-maru-gothic">今すぐ始めましょう</h3>
           <p className="text-lg mb-8 opacity-90">無料で美しい性別発表カードを作成して、特別な瞬間をシェアしよう</p>
           <button
@@ -174,6 +183,18 @@ export default function TopPage() {
             className="bg-white text-purple-600 text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-bold zen-maru-gothic"
           >
             {user ? "マイページへ" : "サンプルを見てみる"}
+          </button>
+        </div>
+
+        {/* 家系図セクション */}
+        <div className="bg-gradient-to-r from-green-500 to-blue-500 rounded-3xl p-12 text-center text-white">
+          <h3 className="text-3xl font-bold mb-4 zen-maru-gothic">家系図も作れます</h3>
+          <p className="text-lg mb-8 opacity-90">家族の繋がりを美しく表現する家系図を作成できます</p>
+          <button
+            onClick={() => router.push("/family-tree/demo")}
+            className="bg-white text-green-600 text-lg px-8 py-4 rounded-full hover:shadow-xl transform hover:scale-105 transition-all duration-300 font-bold zen-maru-gothic"
+          >
+            家系図を見てみる
           </button>
         </div>
       </main>

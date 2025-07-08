@@ -137,7 +137,7 @@ describe('familyTreeUtils', () => {
       expect(grandparentsMarriage?.type).toBe('straight');
       expect(grandparentsMarriage?.style?.stroke).toBe('#fbbf24');
       expect(grandparentsMarriage?.style?.strokeDasharray).toBe('10,5');
-      expect(grandparentsMarriage?.label).toBe('❤️');
+      expect(grandparentsMarriage?.label).toBe('🎂');
       
       // 父母の婚姻関係
       const parentsMarriage = result.edges.find(e => e.id === 'marriage-2');

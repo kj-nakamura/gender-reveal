@@ -11,7 +11,7 @@ const FamilyTreeDemoPage = () => {
   const router = useRouter();
 
   const handleLoginClick = () => {
-    router.push("/login");
+    router.push("/family-tree");
   };
 
   return (
