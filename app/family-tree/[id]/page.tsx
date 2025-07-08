@@ -4,8 +4,7 @@ import { redirect } from "next/navigation";
 import CommonHeader from "@/app/_components/CommonHeader";
 import CommonFooter from "@/app/_components/CommonFooter";
 import FamilyTreeVisualization from "./FamilyTreeVisualization";
-import ExportControls from "./ExportControls";
-import TabNavigation from "./TabNavigation";
+import ActionButtons from "./ActionButtons";
 
 export default async function TreeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -51,11 +50,11 @@ export default async function TreeDetailPage({ params }: { params: Promise<{ id:
 
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">家系図</h2>
-          <FamilyTreeVisualization persons={persons || []} marriages={marriages || []} />
+          <FamilyTreeVisualization persons={persons || []} marriages={marriages || []} treeId={id} />
         </div>
 
         <div>
-          <TabNavigation treeId={id} persons={persons || []} marriages={marriages || []} />
+          <ActionButtons treeId={id} persons={persons || []} marriages={marriages || []} />
         </div>
         {/* <div className="mb-8">
           <ExportControls treeName={tree.name} />

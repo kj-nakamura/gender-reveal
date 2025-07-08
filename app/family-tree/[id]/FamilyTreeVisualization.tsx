@@ -38,6 +38,7 @@ interface Marriage {
 interface FamilyTreeVisualizationProps {
   persons: Person[];
   marriages: Marriage[];
+  treeId: string;
 }
 
 const nodeTypes: NodeTypes = {
@@ -46,11 +47,12 @@ const nodeTypes: NodeTypes = {
 
 function FamilyTreeVisualization({ 
   persons, 
-  marriages 
+  marriages,
+  treeId
 }: FamilyTreeVisualizationProps) {
   const [selectedPerson, setSelectedPerson] = useState<PersonData | null>(null);
   const [editingPerson, setEditingPerson] = useState<Person | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handlePersonClick = useCallback((person: PersonData) => {
     // 詳細パネルとモーダルの両方を表示
@@ -67,7 +69,7 @@ function FamilyTreeVisualization({
     };
     
     setEditingPerson(fullPerson);
-    setIsModalOpen(true);
+    setIsEditModalOpen(true);
   }, []);
 
   const handlePersonUpdate = useCallback((personId: string, updates: Partial<PersonData>) => {
@@ -93,16 +95,16 @@ function FamilyTreeVisualization({
     setSelectedPerson(null);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
     setEditingPerson(null);
     // 詳細パネルも閉じる
     setSelectedPerson(null);
   };
 
-  const handleModalUpdate = () => {
+  const handleEditModalUpdate = () => {
     // モーダルでの更新後の処理
-    setIsModalOpen(false);
+    setIsEditModalOpen(false);
     setEditingPerson(null);
     setSelectedPerson(null);
   };
@@ -220,9 +222,10 @@ function FamilyTreeVisualization({
       <PersonEditModal
         person={editingPerson}
         existingPersons={persons}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onUpdate={handleModalUpdate}
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        onUpdate={handleEditModalUpdate}
+        treeId={treeId}
       />
     </div>
   );

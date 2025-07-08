@@ -19,6 +19,7 @@ interface PersonEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   onUpdate?: () => void;
+  treeId?: string;
 }
 
 export default function PersonEditModal({
@@ -26,7 +27,8 @@ export default function PersonEditModal({
   existingPersons,
   isOpen,
   onClose,
-  onUpdate
+  onUpdate,
+  treeId
 }: PersonEditModalProps) {
   const router = useRouter();
   const supabase = createClient();
@@ -53,6 +55,15 @@ export default function PersonEditModal({
         date_of_birth: person.date_of_birth || '',
         father_id: person.father_id || '',
         mother_id: person.mother_id || '',
+      });
+    } else {
+      // 新規追加時は初期値をセット
+      setFormData({
+        name: '',
+        gender: 'male',
+        date_of_birth: '',
+        father_id: '',
+        mother_id: '',
       });
     }
   }, [person]);
@@ -85,29 +96,50 @@ export default function PersonEditModal({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!person) return;
-
     setIsLoading(true);
     
     try {
-      const { error } = await supabase
-        .from("persons")
-        .update({
-          name: formData.name,
-          gender: formData.gender,
-          date_of_birth: formData.date_of_birth || null,
-          father_id: formData.father_id || null,
-          mother_id: formData.mother_id || null,
-        })
-        .eq("id", person.id);
+      if (person) {
+        // 既存の人物を更新
+        const { error } = await supabase
+          .from("persons")
+          .update({
+            name: formData.name,
+            gender: formData.gender,
+            date_of_birth: formData.date_of_birth || null,
+            father_id: formData.father_id || null,
+            mother_id: formData.mother_id || null,
+          })
+          .eq("id", person.id);
 
-      if (error) {
-        console.error("Error updating person:", error);
-        alert("人物情報の更新に失敗しました");
-        return;
+        if (error) {
+          console.error("Error updating person:", error);
+          alert("人物情報の更新に失敗しました");
+          return;
+        }
+      } else {
+        // 新しい人物を追加
+        const currentTreeId = treeId || window.location.pathname.split('/').pop();
+        
+        const { error } = await supabase
+          .from("persons")
+          .insert({
+            tree_id: currentTreeId,
+            name: formData.name,
+            gender: formData.gender,
+            date_of_birth: formData.date_of_birth || null,
+            father_id: formData.father_id || null,
+            mother_id: formData.mother_id || null,
+          });
+
+        if (error) {
+          console.error("Error adding person:", error);
+          alert("人物の追加に失敗しました");
+          return;
+        }
       }
 
-      // 更新成功
+      // 成功
       onClose();
       if (onUpdate) {
         onUpdate();
@@ -122,7 +154,7 @@ export default function PersonEditModal({
   };
 
   const handleDelete = async () => {
-    if (!person) return;
+    if (!person) return; // 新規追加時は削除できない
     
     if (!confirm(`「${person.name}」を削除しますか？この操作は取り消せません。`)) {
       return;
@@ -167,7 +199,7 @@ export default function PersonEditModal({
     return parent?.name || '不明';
   };
 
-  if (!isOpen || !person) return null;
+  if (!isOpen) return null;
 
   return (
     <div 
@@ -182,7 +214,9 @@ export default function PersonEditModal({
         {/* ヘッダー */}
         <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">人物情報の編集</h2>
+            <h2 className="text-xl font-semibold text-gray-900">
+              {person ? '人物情報の編集' : '新しい人物を追加'}
+            </h2>
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -262,7 +296,7 @@ export default function PersonEditModal({
             >
               <option value="">選択してください</option>
               {existingPersons
-                .filter(p => p.gender === 'male' && p.id !== person.id)
+                .filter(p => p.gender === 'male' && (!person || p.id !== person.id))
                 .map(p => (
                   <option key={p.id} value={p.id}>
                     {p.name}
@@ -285,7 +319,7 @@ export default function PersonEditModal({
             >
               <option value="">選択してください</option>
               {existingPersons
-                .filter(p => p.gender === 'female' && p.id !== person.id)
+                .filter(p => p.gender === 'female' && (!person || p.id !== person.id))
                 .map(p => (
                   <option key={p.id} value={p.id}>
                     {p.name}
@@ -294,46 +328,53 @@ export default function PersonEditModal({
             </select>
           </div>
 
-          {/* 現在の情報表示 */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">現在の情報</h3>
-            <div className="space-y-1 text-sm text-gray-600">
-              <div>性別: {getGenderText(person.gender)}</div>
-              {person.date_of_birth && (
-                <div>生年月日: {person.date_of_birth}</div>
-              )}
-              {(person.father_id || person.mother_id) && (
-                <div>
-                  家族関係:
-                  {person.father_id && (
-                    <span className="ml-2">父親: {getParentName(person.father_id)}</span>
-                  )}
-                  {person.mother_id && (
-                    <span className="ml-2">母親: {getParentName(person.mother_id)}</span>
-                  )}
-                </div>
-              )}
+          {/* 現在の情報表示（編集時のみ） */}
+          {person && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-700 mb-2">現在の情報</h3>
+              <div className="space-y-1 text-sm text-gray-600">
+                <div>性別: {getGenderText(person.gender)}</div>
+                {person.date_of_birth && (
+                  <div>生年月日: {person.date_of_birth}</div>
+                )}
+                {(person.father_id || person.mother_id) && (
+                  <div>
+                    家族関係:
+                    {person.father_id && (
+                      <span className="ml-2">父親: {getParentName(person.father_id)}</span>
+                    )}
+                    {person.mother_id && (
+                      <span className="ml-2">母親: {getParentName(person.mother_id)}</span>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </form>
 
         {/* フッター */}
         <div className="px-6 py-4 border-t border-gray-200 flex justify-between">
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={isLoading || isDeleting}
-            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {isDeleting ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                削除中...
-              </>
-            ) : (
-              '削除'
-            )}
-          </button>
+          {/* 削除ボタンは編集時のみ表示 */}
+          {person ? (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={isLoading || isDeleting}
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isDeleting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  削除中...
+                </>
+              ) : (
+                '削除'
+              )}
+            </button>
+          ) : (
+            <div></div>
+          )}
           
           <div className="flex gap-2">
             <button 
@@ -353,10 +394,10 @@ export default function PersonEditModal({
               {isLoading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  更新中...
+                  {person ? '更新中...' : '追加中...'}
                 </>
               ) : (
-                '更新'
+                person ? '更新' : '追加'
               )}
             </button>
           </div>
