@@ -103,6 +103,18 @@ const mockProps = {
   treeId: 'tree-123'
 };
 
+// Supabaseクライアントのモック
+jest.mock('@/utils/supabase/client', () => ({
+  createClient: () => ({
+    from: () => ({
+      update: jest.fn().mockResolvedValue({ data: null, error: null }),
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({ data: null, error: null })
+    })
+  })
+}));
+
 describe('FamilyTreeVisualization', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -310,4 +322,10 @@ describe('FamilyTreeVisualization', () => {
     expect(screen.getByTestId('nodes-count')).toHaveTextContent('5');
     expect(screen.getByTestId('edges-count')).toHaveTextContent('2');
   });
+
+  test('基本的なレンダリングが正常に動作する', () => {
+    render(<FamilyTreeVisualization {...mockProps} />);
+    expect(screen.getByTestId('react-flow')).toBeInTheDocument();
+  });
+
 });
