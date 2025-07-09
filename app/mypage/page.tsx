@@ -13,9 +13,18 @@ import CommonFooter from "@/app/_components/CommonFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faHeart, faGift, faPalette, faTree, faCircle } from "@fortawesome/free-solid-svg-icons";
 
+interface Reveal {
+  id: string;
+  template_id: string;
+  gender: string;
+  share_slug: string;
+  is_paid: boolean;
+  created_at: string;
+}
+
 export default function MyPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [reveals, setReveals] = useState<any[]>([]);
+  const [reveals, setReveals] = useState<Reveal[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const supabase = createClient();
