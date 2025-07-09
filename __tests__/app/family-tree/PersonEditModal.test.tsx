@@ -308,4 +308,9 @@ describe('PersonEditModal', () => {
     
     expect(document.body.style.overflow).toBe('unset');
   });
+
+  test('基本的な動作確認', async () => {
+    render(<PersonEditModal {...mockProps} />);
+    expect(screen.getByText('新しい人物を追加')).toBeInTheDocument();
+  });
 });
